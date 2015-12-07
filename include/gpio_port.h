@@ -150,6 +150,10 @@ bool  gpio_config_port_control(uint32_t baseAddr, uint32_t pins);
 //*****************************************************************************
 bool  gpio_config_open_drain(uint32_t gpioBase, uint8_t pins);
 
+
+
 bool gpio_config_falling_edge_irq(uint32_t gpioBase, uint8_t pins);
+
+bool  gpio_config_uart(uint32_t baseAddr);
 
 #endif

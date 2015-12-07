@@ -17,10 +17,29 @@
 //*****************************************************************************
 void uart0_config_gpio(void)
 {
-	gpio_enable_port(GPIOA_BASE);
-	gpio_config_digital_enable(GPIOA_BASE, 0x3);
-	gpio_config_alternate_function(GPIOA_BASE, 0x3);
-	GPIOA->PCTL |= (GPIO_PCTL_PA1_U0TX|GPIO_PCTL_PA0_U0RX);
+	uint8_t pins = PA0 | PA1;
+	uint8_t out = PA1;
+	uint8_t in = PA0;
+	
+	if(!gpio_enable_port(GPIOA_BASE))
+	{
+		while(1){}
+	}
+	
+	if(!gpio_config_digital_enable(GPIOA_BASE,pins))
+	{
+		while(1){}
+	}
+	
+	if(!gpio_config_alternate_function(GPIOA_BASE,pins))
+	{
+		while(1){}
+	}
+	
+	if(!gpio_config_uart(GPIOA_BASE))
+	{
+		while(1){}
+	}
 }
 
 void initializeBoard(void)
@@ -29,7 +48,6 @@ void initializeBoard(void)
 	
 	uart0_config_gpio();
   initialize_uart();
-//  i2cInit();
 	
   EnableInterrupts();
 }
@@ -48,9 +66,10 @@ int
 main(void)
 {	
 	initializeBoard();
-	printf("\na");
+	printf("This is a test\n");
 	
   while(1)
   {
+		printf("This is a test\n");
   }
 }

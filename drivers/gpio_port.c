@@ -372,7 +372,7 @@ bool  gpio_config_alternate_function(uint32_t baseAddr, uint8_t pins)
 
 	gpioPort = (GPIOA_Type *)baseAddr;
 	
-	gpioPort->AFSEL &= ~pins;
+	gpioPort->AFSEL |= pins;
 	
 	return true;
 }
@@ -448,6 +448,25 @@ bool  gpio_config_open_drain(uint32_t gpioBase, uint8_t pins)
 	gpioPort = (GPIOA_Type *) gpioBase;
 	
 	gpioPort->PCTL |= pins;
+	
+	return true;
+}
+
+bool  gpio_config_uart(uint32_t baseAddr)
+{
+		GPIOA_Type *gpioPort;
+	
+	// Verify that the base address is a valid GPIO base address
+  // using the verifyBaseAddr function provided above
+	if(!verifyBaseAddr(baseAddr))
+	{
+		return false;
+	}
+	// Type Cast the base address to a GPIOA_Type pointer
+	gpioPort = (GPIOA_Type *)baseAddr;
+	
+	// Enable pins for UART function
+	gpioPort->PCTL |=  (GPIO_PCTL_PA1_U0TX | GPIO_PCTL_PA0_U0RX);
 	
 	return true;
 }
