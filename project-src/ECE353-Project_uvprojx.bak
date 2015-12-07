@@ -413,6 +413,73 @@
         </Group>
         <Group>
           <GroupName>drivers</GroupName>
+          <Files>
+            <File>
+              <FileName>adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>eeprom.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\eeprom.c</FilePath>
+            </File>
+            <File>
+              <FileName>fonts.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\fonts.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpio_port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\gpio_port.c</FilePath>
+            </File>
+            <File>
+              <FileName>i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>lcd-dogs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\lcd-dogs.c</FilePath>
+            </File>
+            <File>
+              <FileName>pc_buffer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\pc_buffer.c</FilePath>
+            </File>
+            <File>
+              <FileName>spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>timers.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\timers.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart_irqs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\uart_irqs.c</FilePath>
+            </File>
+            <File>
+              <FileName>wireless.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\wireless.c</FilePath>
+            </File>
+            <File>
+              <FileName>board_util.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\board_util.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>

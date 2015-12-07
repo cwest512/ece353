@@ -3,10 +3,70 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
-D:\Box Sync\ECE353\2015-Fall\project-files\ICE-17-UART-Tx-IRQ-Dist\ICE-UART-Tx-IRQ.uvprojx
-Project File Date:  10/01/2015
+I:\353\ECE353-Project\ICE-17-UART-Tx-IRQ-Dist\ICE-UART-Tx-IRQ.uvprojx
+Project File Date:  11/24/2015
 
 <h2>Output:</h2>
+Rebuild target 'ICE-UART-Tx-IRQ'
+compiling main.c...
+compiling interrupts.c...
+compiling board_config.c...
+compiling pc_buffer.c...
+compiling uart_irqs.c...
+assembling startup_TM4C123.s...
+compiling system_TM4C123.c...
+linking...
+.\obj\ece353_base_project.axf: Error: L6218E: Undefined symbol gpio_config_alternate_function (referred from board_config.o).
+.\obj\ece353_base_project.axf: Error: L6218E: Undefined symbol gpio_config_digital_enable (referred from board_config.o).
+.\obj\ece353_base_project.axf: Error: L6218E: Undefined symbol gpio_config_port_control (referred from board_config.o).
+.\obj\ece353_base_project.axf: Error: L6218E: Undefined symbol gpio_enable_port (referred from board_config.o).
+Not enough information to list image symbols.
+Finished: 1 information, 0 warning and 4 error messages.
+".\obj\ece353_base_project.axf" - 4 Error(s), 0 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.4.1.1.pack
+                ARM::CMSIS:CORE:3.30.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 3.30.0
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.TM4C_DFP.1.0.0.pack
+                Keil::Device:Startup:1.0.0
+                Texas Instruments Tiva C Series Device Support and Examples
+   * Component: Startup Version: 1.0.0
+
+<h2>Collection of Component include folders:</h2>
+  I:\353\ECE353-Project\ICE-17-UART-Tx-IRQ-Dist\RTE
+  C:\AppV\mdk_510\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include
+  C:\AppV\mdk_510\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:3.30.0
+      Source file:   CMSIS\UserCodeTemplates\ARM\ITM_Retarget.c
+
+   * Component: Keil::Device:Startup:1.0.0
+      Include file:  Device\Include\TM4C123\TM4C123.h
+      Source file:   Device\Source\ARM\startup_TM4C123.s
+      Source file:   Device\Source\system_TM4C123.c
+Target not created
 </pre>
 </body>
 </html>
+Device Support and Examples
+   * Component: Startup Version: 1.0.0
+
+<h2>Collection of Component include folders:</h2>
+  I:\353\ECE353-Project\ICE-17-UART-Tx-IRQ-Dist\RTE
+  C:\AppV\mdk_510\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: Keil::Device:Startup:1.0.0
+      Include file:  Device\Include\TM4C123\TM4C123.h
+      Source file:   Device\Source\ARM\startup_TM4C123.s
+      Source file:   Device\Source\system_TM4C123.c
+Target not created

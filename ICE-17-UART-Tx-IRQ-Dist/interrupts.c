@@ -1,4 +1,4 @@
-#include "interrupts.h"
+//#include "interrupts.h"
 #include "driver_defines.h"
 #include "board_config.h"
 
@@ -11,12 +11,17 @@ extern PC_Buffer UART0_Tx_Buffer;
 //*****************************************************************************
 __INLINE static void UART0_Rx_Flow(PC_Buffer *rx_buffer)
 {
-  // Loop until all characters in the RX FIFO have been removed
 
+	  // Loop until all characters in the RX FIFO have been removed
+	while((UART0->FR & UART_FR_RXFE) == 0)
+	{
       // Inside Loop: Add the character to the circular buffer
-
+			pc_buffer_add(rx_buffer, UART0->DR);
+	}
   // Clear the RX interrupts so it can trigger again when the hardware 
   // FIFO becomes full
+	UART0->ICR |= UART_ICR_RXIC ;
+	UART0->ICR |= UART_ICR_RTIC ;
 
 }
 
@@ -28,13 +33,26 @@ __INLINE static void UART0_Tx_Flow(PC_Buffer *tx_buffer)
       char c;
   
         // Check to see if we have any data in the circular queue
-  
+				while(!pc_buffer_empty(tx_buffer))
+				{
             // Move data from the circular queue to the hardware FIFO
             // until the hardware FIFO is full or the circular buffer
             // is empty.
+						pc_buffer_remove(tx_buffer, &c);
+						UART0->DR = c;
+						if(UART0->FR & UART_FR_TXFF)
+						{
+							UART0->ICR |= UART_ICR_TXIC;
+							return;
+						}
+					
+				}
 
         // Clear the TX interrupt so it can trigger again when the hardware
         // FIFO is empty
+				UART0->ICR |= UART_ICR_TXIC;
+	
+	
 
 }
 

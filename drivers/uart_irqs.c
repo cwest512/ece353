@@ -1,22 +1,10 @@
 #include "uart_irqs.h"
+#include "board_util.h"
 
 #define UART0_BUFFER_SIZE 80
 
 PC_Buffer UART0_Tx_Buffer;
 PC_Buffer UART0_Rx_Buffer;
-
-void DisableInterrupts(void)
-{
-  __asm {
-         CPSID  I
-  }
-}
-void EnableInterrupts(void)
-{
-  __asm {
-    CPSIE  I
-  }
-}
 
 //************************************************************************
 // Configure UART0 to be 115200, 8N1.  Data will be sent/recieved using
@@ -33,13 +21,13 @@ bool initialize_uart(void)
     {
       // busy wait
     }
-    
-    // Set the baud rate
-    UART0->IBRD = 27;
-    UART0->FBRD = 9;
-    
+		
     // Disable UART
     UART0->CTL &= ~UART_CTL_UARTEN;
+		
+    // Set the baud rate
+    UART0->IBRD = 27;
+    UART0->FBRD = 8;
     
     // Configure the Line Control for 8N1, FIFOs
     UART0->LCRH =   UART_LCRH_WLEN_8 | UART_LCRH_FEN;
@@ -97,7 +85,7 @@ void uartTx(int data)
   // Queue is empty, send the data to the FIFO.
   if( pc_buffer_empty(&UART0_Tx_Buffer) && !(UART0->FR & UART_FR_TXFF) )
   {
-    UART0->DR =   data;
+    UART0->DR = data;
   }
   else
   {

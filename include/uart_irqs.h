@@ -29,7 +29,6 @@
 extern void DisableInterrupts(void);
 extern void EnableInterrupts(void);
 
-
 //************************************************************************
 // Configure UART0 to be 115200, 8N1.  Data will be sent/recieved using
 // polling (Do Not enable interrupts)
