@@ -1,0 +1,19 @@
+--cpu Cortex-M4.fp
+".\obj\main.o"
+".\obj\boardutil.o"
+".\obj\interrupts.o"
+".\obj\eadogs102w.o"
+".\obj\eeprom.o"
+".\obj\fonts.o"
+".\obj\gpioport.o"
+".\obj\gptimer.o"
+".\obj\i2c.o"
+".\obj\pc_buffer.o"
+".\obj\spi.o"
+".\obj\uart.o"
+".\obj\wireless.o"
+".\obj\startup_tm4c123.o"
+".\obj\system_tm4c123.o"
+--library_type=microlib --ro-base 0x00000000 --entry 0x00000000 --rw-base 0x20000000 --entry Reset_Handler --first __Vectors --strict --summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list ".\lst\ece353_base_project.map" -o .\obj\ece353_base_project.axf

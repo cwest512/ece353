@@ -1,0 +1,17 @@
+.\obj\interrupts.o: interrupts.c
+.\obj\interrupts.o: ..\..\include\interrupts.h
+.\obj\interrupts.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdint.h
+.\obj\interrupts.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdbool.h
+.\obj\interrupts.o: C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123\TM4C123.h
+.\obj\interrupts.o: C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123\TM4C123GH6PM.h
+.\obj\interrupts.o: C:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include\core_cm4.h
+.\obj\interrupts.o: C:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include\core_cmInstr.h
+.\obj\interrupts.o: C:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include\core_cmFunc.h
+.\obj\interrupts.o: C:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include\core_cm4_simd.h
+.\obj\interrupts.o: C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123\system_TM4C123.h
+.\obj\interrupts.o: ..\..\include\uart.h
+.\obj\interrupts.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdio.h
+.\obj\interrupts.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\errno.h
+.\obj\interrupts.o: ..\..\include\../include/sysctrl.h
+.\obj\interrupts.o: ..\..\include\pc_buffer.h
+.\obj\interrupts.o: ..\..\include\../include/gptimer.h

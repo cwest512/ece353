@@ -1,0 +1,11 @@
+.\obj\i2c.o: ..\..\drivers\i2c.c
+.\obj\i2c.o: ..\..\include\i2c.h
+.\obj\i2c.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdint.h
+.\obj\i2c.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdbool.h
+.\obj\i2c.o: C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123\TM4C123GH6PM.h
+.\obj\i2c.o: C:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include\core_cm4.h
+.\obj\i2c.o: C:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include\core_cmInstr.h
+.\obj\i2c.o: C:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include\core_cmFunc.h
+.\obj\i2c.o: C:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include\core_cm4_simd.h
+.\obj\i2c.o: C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123\system_TM4C123.h
+.\obj\i2c.o: ..\..\drivers\../include/sysctrl.h
