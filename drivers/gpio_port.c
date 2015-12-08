@@ -447,7 +447,7 @@ bool  gpio_config_open_drain(uint32_t gpioBase, uint8_t pins)
 	
 	gpioPort = (GPIOA_Type *) gpioBase;
 	
-	gpioPort->PCTL |= pins;
+	gpioPort->ODR |= pins;
 	
 	return true;
 }

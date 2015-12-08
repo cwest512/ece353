@@ -13,6 +13,10 @@
 #include "uart.h"
 #include "gpio_port.h"
 
+char const write_data[] = "brad";
+uint8_t read_data[4];
+
+
 //*****************************************************************************
 //*****************************************************************************
 void uart0_config_gpio(void)
@@ -48,28 +52,49 @@ void initializeBoard(void)
 	
 	uart0_config_gpio();
   initialize_uart();
+	i2cInit();
 	
   EnableInterrupts();
 }
 
-//void read_eeprom(void)
-//{
-//	int i;
-//	uint8_t read_data[1];
-//	for(i = 0; i < 1; i++)
-//  {
-//    eeprom_byte_read(EEPROM_I2C_BASE,i,&(read_data[i]));
-//  }
-//}
+void read_eeprom(void)
+{
+	int i;
+	for(i = 0; i < 4; i++)
+  {
+    eeprom_byte_read(EEPROM_I2C_BASE,i,&(read_data[i]));
+  }
+}
+
+void write_eeprom(void)
+{
+	int i;
+	for(i = 0; i < sizeof(write_data); i++)
+  {
+		eeprom_byte_write(EEPROM_I2C_BASE,i, write_data[i]);
+	}
+}
 
 int 
 main(void)
 {	
+	int i;
+	char c;
 	initializeBoard();
 	printf("This is a test\n");
 	
+		write_eeprom();
+	
+	
+	read_eeprom();
+//	c = (char *) read_data;
+	for(i = 0; i < sizeof(write_data); i++)
+  {
+		c = (char) read_data[i];
+		printf("%c", c);
+	}
   while(1)
   {
-		printf("This is a test\n");
+//		printf("This is a test\n");
   }
 }
