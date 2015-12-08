@@ -20,3 +20,4 @@
 .\obj\main.o: ..\include\pc_buffer.h
 .\obj\main.o: ..\include\uart.h
 .\obj\main.o: ..\include\gpio_port.h
+.\obj\main.o: ..\include\adc.h

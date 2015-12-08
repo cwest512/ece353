@@ -77,6 +77,27 @@
 #define     PF6     PIN_6
 #define     PF7     PIN_7
 
+#define   DIR_BTN_BASE    GPIOF_BASE
+#define   PS2_BTN_BASE    GPIOE_BASE
+
+#define   DIR_BTN_UP      (1 << 1)
+#define   DIR_BTN_DOWN    (1 << 4)
+#define   DIR_BTN_LEFT    (1 << 3)
+#define   DIR_BTN_RIGHT   (1 << 2)
+#define   PS2_BTN         (1 << 0)
+
+#define   PS2_GPIO_BASE    GPIOE_BASE
+
+#define   PS2_X_PIN_NUM      2
+#define   PS2_Y_PIN_NUM      3
+
+#define   PS2_X_DIR_MASK     (1 << PS2_X_PIN_NUM)
+#define   PS2_Y_DIR_MASK     (1 << PS2_Y_PIN_NUM)
+
+#define   PS2_ADC_BASE     ADC0_BASE
+
+#define   PS2_X_ADC_CHANNEL  1
+#define   PS2_Y_ADC_CHANNEL  0
 
 //*****************************************************************************
 // Fill out the #defines below to configure which pins are connected to
@@ -93,5 +114,7 @@ void serialDebugInit(void);
 void i2cInit(void);
 void DisableInterrupts(void);
 void EnableInterrupts(void);
+void adc_init(void);
+void pushButton_init(void);
 
 #endif

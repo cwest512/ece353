@@ -1,5 +1,5 @@
 Dependencies for Project 'ECE353-Project', Target 'ECE353-Project': (DO NOT MODIFY !)
-F (.\main.c)(0x566755E9)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -IC:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include -I..\include --debug-I I:\git_353\ece353\project-src\RTE-I C:\AppV\mdk_510\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-I C:\AppV\mdk_510\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123-D_RTE_ -DTM4C123GH6PM -o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
+F (.\main.c)(0x56675C35)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -IC:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include -I..\include --debug-I I:\git_353\ece353\project-src\RTE-I C:\AppV\mdk_510\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-I C:\AppV\mdk_510\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123-D_RTE_ -DTM4C123GH6PM -o .\obj\main.o --omf_browse .\obj\main.crf --depend .\obj\main.d)
 I (C:\ProgramData\App-V\61A5EFCB-2A44-465D-90CC-A7A4A41DA0A8\7A6E59DF-8AF4-4A81-AF6C-BEAC9A01345F\Root\ARM\ARMCC\include\stdio.h)(0x56029587)
 I (C:\ProgramData\App-V\61A5EFCB-2A44-465D-90CC-A7A4A41DA0A8\7A6E59DF-8AF4-4A81-AF6C-BEAC9A01345F\Root\ARM\ARMCC\include\stdint.h)(0x56029587)
 I (C:\ProgramData\App-V\61A5EFCB-2A44-465D-90CC-A7A4A41DA0A8\7A6E59DF-8AF4-4A81-AF6C-BEAC9A01345F\Root\ARM\ARMCC\include\string.h)(0x56029588)
@@ -15,12 +15,13 @@ I (..\include\eeprom.h)(0x565F04DA)
 I (..\include\i2c.h)(0x55A811FA)
 I (..\include\driver_defines.h)(0x55A811BE)
 I (C:\ProgramData\App-V\61A5EFCB-2A44-465D-90CC-A7A4A41DA0A8\7A6E59DF-8AF4-4A81-AF6C-BEAC9A01345F\Root\ARM\ARMCC\include\errno.h)(0x5602957B)
-I (..\include\board_util.h)(0x5665D471)
+I (..\include\board_util.h)(0x56675A73)
 I (C:\ProgramData\App-V\61A5EFCB-2A44-465D-90CC-A7A4A41DA0A8\7A6E59DF-8AF4-4A81-AF6C-BEAC9A01345F\Root\ARM\ARMCC\include\stdlib.h)(0x56029587)
 I (..\include\uart_irqs.h)(0x5665D341)
 I (..\include\pc_buffer.h)(0x5643509E)
 I (..\include\uart.h)(0x5640B5D3)
 I (..\include\gpio_port.h)(0x5666199E)
+I (..\include\adc.h)(0x55A810C6)
 F (.\interrupts.c)(0x5665E17C)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -IC:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include -I..\include --debug-I I:\git_353\ece353\project-src\RTE-I C:\AppV\mdk_510\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-I C:\AppV\mdk_510\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123-D_RTE_ -DTM4C123GH6PM -o .\obj\interrupts.o --omf_browse .\obj\interrupts.crf --depend .\obj\interrupts.d)
 I (..\include\pc_buffer.h)(0x5643509E)
 I (C:\ProgramData\App-V\61A5EFCB-2A44-465D-90CC-A7A4A41DA0A8\7A6E59DF-8AF4-4A81-AF6C-BEAC9A01345F\Root\ARM\ARMCC\include\stdbool.h)(0x56029587)
@@ -164,7 +165,7 @@ I (C:\AppV\mdk_510\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h)(0x56029
 I (C:\AppV\mdk_510\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cm4_simd.h)(0x56029BEB)
 I (C:\AppV\mdk_510\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123\system_TM4C123.h)(0x560297A3)
 I (..\include\pc_buffer.h)(0x5643509E)
-I (..\include\board_util.h)(0x5665D471)
+I (..\include\board_util.h)(0x56675A73)
 I (C:\ProgramData\App-V\61A5EFCB-2A44-465D-90CC-A7A4A41DA0A8\7A6E59DF-8AF4-4A81-AF6C-BEAC9A01345F\Root\ARM\ARMCC\include\string.h)(0x56029588)
 I (C:\ProgramData\App-V\61A5EFCB-2A44-465D-90CC-A7A4A41DA0A8\7A6E59DF-8AF4-4A81-AF6C-BEAC9A01345F\Root\ARM\ARMCC\include\stdlib.h)(0x56029587)
 F (..\drivers\wireless.c)(0x5665A12D)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -IC:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include -I..\include --debug-I I:\git_353\ece353\project-src\RTE-I C:\AppV\mdk_510\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-I C:\AppV\mdk_510\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123-D_RTE_ -DTM4C123GH6PM -o .\obj\wireless.o --omf_browse .\obj\wireless.crf --depend .\obj\wireless.d)
@@ -181,7 +182,7 @@ I (..\include\spi.h)(0x559EA01C)
 I (..\include\driver_defines.h)(0x55A811BE)
 I (C:\ProgramData\App-V\61A5EFCB-2A44-465D-90CC-A7A4A41DA0A8\7A6E59DF-8AF4-4A81-AF6C-BEAC9A01345F\Root\ARM\ARMCC\include\stdbool.h)(0x56029587)
 I (C:\ProgramData\App-V\61A5EFCB-2A44-465D-90CC-A7A4A41DA0A8\7A6E59DF-8AF4-4A81-AF6C-BEAC9A01345F\Root\ARM\ARMCC\include\errno.h)(0x5602957B)
-F (.\board_util.c)(0x56674FAC)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -IC:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include -I..\include --debug-I I:\git_353\ece353\project-src\RTE-I C:\AppV\mdk_510\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-I C:\AppV\mdk_510\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123-D_RTE_ -DTM4C123GH6PM -o .\obj\board_util.o --omf_browse .\obj\board_util.crf --depend .\obj\board_util.d)
+F (.\board_util.c)(0x56675B34)(-c --cpu Cortex-M4.fp -D__EVAL -D__MICROLIB -g -O0 --apcs=interwork -IC:\Keil_v5\ARM\Pack\ARM\CMSIS\3.20.4\CMSIS\Include -I..\include --debug-I I:\git_353\ece353\project-src\RTE-I C:\AppV\mdk_510\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include-I C:\AppV\mdk_510\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123-D_RTE_ -DTM4C123GH6PM -o .\obj\board_util.o --omf_browse .\obj\board_util.crf --depend .\obj\board_util.d)
 I (C:\AppV\mdk_510\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123\TM4C123GH6PM.h)(0x560297A8)
 I (C:\AppV\mdk_510\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cm4.h)(0x56029BEB)
 I (C:\ProgramData\App-V\61A5EFCB-2A44-465D-90CC-A7A4A41DA0A8\7A6E59DF-8AF4-4A81-AF6C-BEAC9A01345F\Root\ARM\ARMCC\include\stdint.h)(0x56029587)
@@ -189,7 +190,7 @@ I (C:\AppV\mdk_510\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmInstr.h)(0x5602
 I (C:\AppV\mdk_510\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cmFunc.h)(0x56029BEB)
 I (C:\AppV\mdk_510\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include\core_cm4_simd.h)(0x56029BEB)
 I (C:\AppV\mdk_510\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123\system_TM4C123.h)(0x560297A3)
-I (..\include\board_util.h)(0x5665D471)
+I (..\include\board_util.h)(0x56675A73)
 I (C:\ProgramData\App-V\61A5EFCB-2A44-465D-90CC-A7A4A41DA0A8\7A6E59DF-8AF4-4A81-AF6C-BEAC9A01345F\Root\ARM\ARMCC\include\stdio.h)(0x56029587)
 I (C:\ProgramData\App-V\61A5EFCB-2A44-465D-90CC-A7A4A41DA0A8\7A6E59DF-8AF4-4A81-AF6C-BEAC9A01345F\Root\ARM\ARMCC\include\string.h)(0x56029588)
 I (C:\ProgramData\App-V\61A5EFCB-2A44-465D-90CC-A7A4A41DA0A8\7A6E59DF-8AF4-4A81-AF6C-BEAC9A01345F\Root\ARM\ARMCC\include\stdlib.h)(0x56029587)
