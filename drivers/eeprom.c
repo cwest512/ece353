@@ -1,4 +1,5 @@
 #include "eeprom.h"
+#include "board_util.h"
 
 //*****************************************************************************
 // Used to determine if the EEPROM is busy writing the last transaction to 
@@ -181,4 +182,22 @@ i2c_status_t eeprom_byte_read
      I2C_MCS_START | I2C_MCS_RUN | I2C_MCS_STOP
 	);
   return I2C_OK;
+}
+
+void read_eeprom(uint8_t* data, uint8_t size, uint16_t address)
+{
+	int i;
+	for(i = 0; i < size; i++)
+  {
+    eeprom_byte_read(EEPROM_I2C_BASE, address + i, &(data[i]));
+  }
+}
+
+void write_eeprom(uint8_t* data, uint8_t size, uint16_t address)
+{
+	int i;
+	for(i = 0; i < size; i++)
+  {
+		eeprom_byte_write(EEPROM_I2C_BASE,address + i, data[i]);
+	}
 }

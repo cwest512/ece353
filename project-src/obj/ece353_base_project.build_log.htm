@@ -3,20 +3,28 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
-I:\git_353\ece353\project-src\ECE353-Project.uvprojx
-Project File Date:  12/07/2015
+I:\ECE353\git\ece353\project-src\ECE353-Project.uvprojx
+Project File Date:  12/08/2015
 
 <h2>Output:</h2>
 Build target 'ECE353-Project'
 compiling main.c...
-main.c(26): warning:  #177-D: variable "out" was declared but never referenced
+main.c(22): warning:  #177-D: variable "out" was declared but never referenced
         uint8_t out = PA1;
-main.c(27): warning:  #177-D: variable "in" was declared but never referenced
+main.c(23): warning:  #177-D: variable "in" was declared but never referenced
         uint8_t in = PA0;
-main.c: 2 warnings, 0 errors
+main.c(68): warning:  #177-D: variable "i" was declared but never referenced
+        int i;
+main.c(69): warning:  #177-D: variable "data" was declared but never referenced
+        uint8_t data;
+main.c(72): warning:  #177-D: variable "x_data" was declared but never referenced
+        uint32_t x_data, y_data;
+main.c(72): warning:  #177-D: variable "y_data" was declared but never referenced
+        uint32_t x_data, y_data;
+main.c: 6 warnings, 0 errors
 linking...
-Program Size: Code=4340 RO-data=660 RW-data=28 ZI-data=4132  
-".\obj\ece353_base_project.axf" - 0 Error(s), 2 Warning(s).
+Program Size: Code=4048 RO-data=652 RW-data=24 ZI-data=4128  
+".\obj\ece353_base_project.axf" - 0 Error(s), 6 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -33,7 +41,7 @@ Package Vendor: Keil
    * Component: Startup Version: 1.0.0
 
 <h2>Collection of Component include folders:</h2>
-  I:\git_353\ece353\project-src\RTE
+  I:\ECE353\git\ece353\project-src\RTE
   C:\AppV\mdk_510\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include
   C:\AppV\mdk_510\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123
 
@@ -46,20 +54,19 @@ Package Vendor: Keil
       Include file:  Device\Include\TM4C123\TM4C123.h
       Source file:   Device\Source\ARM\startup_TM4C123.s
       Source file:   Device\Source\system_TM4C123.c
-Load "I:\\git_353\\ece353\\project-src\\obj\\ece353_base_project.axf" 
+Load "I:\\ECE353\\git\\ece353\\project-src\\obj\\ece353_base_project.axf" 
 Connecting: Mode=JTAG, Speed=1000000Hz
 Erase Done.
 Programming Done.
 Verify OK.
-Load "I:\\git_353\\ece353\\project-src\\obj\\ece353_base_project.axf" 
+ource file:   Device\Source\system_TM4C123.c
+Load "I:\\ECE353\\git\\ece353\\project-src\\obj\\ece353_base_project.axf" 
 Connecting: Mode=JTAG, Speed=1000000Hz
 Erase Done.
 Programming Done.
 Verify OK.
-tartup Version: 1.0.0
-
-<h2>Collection of Component include folders:</h2>
-  I:\git_353\ece353\project-src\RTE
+ude folders:</h2>
+  I:\ECE353\git\ece353\project-src\RTE
   C:\AppV\mdk_510\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include
   C:\AppV\mdk_510\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123
 
@@ -72,10 +79,10 @@ tartup Version: 1.0.0
       Include file:  Device\Include\TM4C123\TM4C123.h
       Source file:   Device\Source\ARM\startup_TM4C123.s
       Source file:   Device\Source\system_TM4C123.c
-Load "I:\\git_353\\ece353\\project-src\\obj\\ece353_base_project.axf" 
+Load "I:\\ECE353\\git\\ece353\\project-src\\obj\\ece353_base_project.axf" 
 Connecting: Mode=JTAG, Speed=1000000Hz
 Erase Done.
 Programming Done.
 Verify OK.
-rogramming Done.
-Verify OK.
+Device\Source\system_TM4C123.c
+Target not created
