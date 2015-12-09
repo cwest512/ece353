@@ -46,6 +46,7 @@ void initializeBoard(void)
   initialize_uart();
 	i2cInit();
 	timer0_configA(25000);
+	timer1_configA(50E6);
 	SysTick_Config(25000);
 	//Initializes SPI interface and LCD
 	//lcd_init();	
@@ -86,27 +87,30 @@ main(void)
 	
 	//turn on timer0A
 	a_timer->CTL |= TIMER_CTL_TAEN;
+	one_timer->CTL |= TIMER_CTL_TAEN;
   // Infinite Loop
   while(1)
   {
 
-//      if(TX_MODE && AlertOneSec)
-//      {
+      if(TX_MODE && AlertOneSec)
+      {
+				printf("test wireless_send");
 //          printf("Sending: %d\n\r",i);
 //          status = wireless_send_32(false, false, i);
 //          AlertOneSec = false;
 //          i++;
-//      }
-//      else if (!TX_MODE)
-//      {
-//        status =  wireless_get_32(false, &data);
-//        if(status == NRF24L01_RX_SUCCESS)
-//        {
-//            printf("Received: %d\n\r", data);
-//        }
-//        
-//        AlertOneSec = false;
-//      }
+				AlertOneSec = false;
+      }
+      else if (!TX_MODE)
+      {
+        status =  wireless_get_32(false, &data);
+        if(status == NRF24L01_RX_SUCCESS)
+        {
+            printf("Received: %d\n\r", data);
+        }
+        
+        AlertOneSec = false;
+      }
 		
 		if(AlertSysTick)
 		{

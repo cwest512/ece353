@@ -8,6 +8,7 @@
 #include "driver_defines.h"
 
 extern volatile bool AlertSysTick;
+extern volatile bool AlertOneSec;
 extern PC_Buffer UART0_Rx_Buffer;
 extern PC_Buffer UART0_Tx_Buffer;
 extern volatile bool updateXY;

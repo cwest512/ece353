@@ -5,6 +5,7 @@
 //#include "board_config.h"
 
 volatile bool AlertSysTick;
+volatile bool AlertOneSec;
 extern PC_Buffer UART0_Rx_Buffer;
 extern PC_Buffer UART0_Tx_Buffer;
 volatile int count = 0;
@@ -100,4 +101,10 @@ void TIMER0A_Handler(void)
 {	
   updateXY = true;
 	a_timer->ICR = TIMER_ICR_TATOCINT;
+}
+
+void TIMER1A_Handler(void)
+{	
+  AlertOneSec = true;
+	one_timer->ICR = TIMER_ICR_TATOCINT;
 }
