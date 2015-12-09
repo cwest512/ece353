@@ -1229,18 +1229,20 @@ ARM Macro Assembler    Page 19
   964 000000F4                 END
               00000000 
               00000000 
-Command Line: --debug --xref --cpu=Cortex-M4.fp --apcs=interwork --depend=.\obj
-\startup_tm4c123.d -o.\obj\startup_tm4c123.o -II:\ECE353\git\ece353\project-src
-\RTE -IC:\AppV\mdk_510\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include -IC:\AppV\mdk_510
-\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123 --predefine="__EVAL SETA 1
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
+erwork --depend=.\obj\startup_tm4c123.d -o.\obj\startup_tm4c123.o -I"D:\Google 
+Drive\School\UW-Madison\git\ece353\project-src\RTE" -IC:\Keil_v5\ARM\PACK\ARM\C
+MSIS\4.3.0\CMSIS\Include -IC:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Inclu
 
 
 
 ARM Macro Assembler    Page 20 
 
 
-" --predefine="__MICROLIB SETA 1" --list=.\lst\startup_tm4c123.lst RTE\Device\T
-M4C123GH6PM\startup_TM4C123.s
+de\TM4C123 --predefine="__EVAL SETA 1" --predefine="__MICROLIB SETA 1" --predef
+ine="__UVISION_VERSION SETA 516" --predefine="_RTE_ SETA 1" --predefine="TM4C12
+3GH6PM SETA 1" --list=.\lst\startup_tm4c123.lst RTE\Device\TM4C123GH6PM\startup
+_TM4C123.s
 
 
 
@@ -2584,4 +2586,4 @@ Symbol: __main
       At line 237 in file RTE\Device\TM4C123GH6PM\startup_TM4C123.s
 Comment: __main used once
 2 symbols
-469 symbols in table
+472 symbols in table

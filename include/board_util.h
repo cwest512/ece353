@@ -110,11 +110,41 @@
 #define   EEPROM_I2C_SCL_PIN_PCTL  GPIO_PCTL_PA6_I2C1SCL
 #define   EEPROM_I2C_SDA_PIN_PCTL  GPIO_PCTL_PA7_I2C1SDA
 
+
+//*****************************************************************************
+// Fill out the #defines below to configure which pins are connected to
+// the nordic wirless radio
+//*****************************************************************************
+#define   RF_GPIO_BASE       GPIOD_BASE
+#define   RF_SPI_BASE        SSI1_BASE
+#define   RF_CLK_PIN         PD0
+#define   RF_MISO_PIN        PD2
+#define   RF_MOSI_PIN        PD3
+
+#define   RF_CLK_PIN_PCTL    GPIO_PCTL_PD0_SSI1CLK
+#define   RF_MISO_PIN_PCTL   GPIO_PCTL_PD2_SSI1RX
+#define   RF_MOSI_PIN_PCTL   GPIO_PCTL_PD3_SSI1TX
+
+#define   RF_CS_BASE        GPIOD_BASE
+#define   RF_CS_PIN          PD1
+
+#define   RF_CE_GPIO_BASE     GPIOD_BASE
+#define   RF_CE_PIN           PD6
+#define   RF_CE_PERIH         GPIOD
+
+#define   RF_IRQ_GPIO_BASE    GPIOD_BASE
+#define   RF_IRQ_PIN          PD7
+
+#define   RF_PAYLOAD_SIZE     0x04
+#define   RF_CHANNEL          0x02
+
 void serialDebugInit(void);
 void i2cInit(void);
 void DisableInterrupts(void);
 void EnableInterrupts(void);
 void adc_init(void);
 void pushButton_init(void);
+void rfInit(void);
+void uart0_config_gpio(void);
 
 #endif

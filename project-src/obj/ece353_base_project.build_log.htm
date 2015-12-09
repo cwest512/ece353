@@ -2,37 +2,78 @@
 <body>
 <pre>
 <h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.16a
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Cameron West, UW-Madison, LIC=----
+ 
+Tool Versions:
+Toolchain:       MDK-Lite  Version: 5.16a
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 (build 20)
+Assembler:       Armasm.exe V5.06 (build 20)
+Linker/Locator:  ArmLink.exe V5.06 (build 20)
+Library Manager: ArmAr.exe V5.06 (build 20)
+Hex Converter:   FromElf.exe V5.06 (build 20)
+CPU DLL:         SARMCM3.DLL V5.16a
+Dialog DLL:      DCM.DLL V1.13.2.0
+Target DLL:      lmidk-agdi.dll V???
+Dialog DLL:      TCM.DLL V1.14.5.0
+ 
 <h2>Project:</h2>
-I:\ECE353\git\ece353\project-src\ECE353-Project.uvprojx
-Project File Date:  12/08/2015
+D:\Google Drive\School\UW-Madison\git\ece353\project-src\ECE353-Project.uvprojx
+Project File Date:  12/09/2015
 
 <h2>Output:</h2>
-Build target 'ECE353-Project'
+*** Using Compiler 'V5.06 (build 20)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Rebuild target 'ECE353-Project'
+compiling fonts.c...
+compiling interrupts.c...
 compiling main.c...
 main.c(22): warning:  #177-D: variable "out" was declared but never referenced
-        uint8_t out = PA1;
+  	uint8_t out = PA1;
 main.c(23): warning:  #177-D: variable "in" was declared but never referenced
-        uint8_t in = PA0;
+  	uint8_t in = PA0;
 main.c(68): warning:  #177-D: variable "i" was declared but never referenced
-        int i;
+  	int i;
 main.c(69): warning:  #177-D: variable "data" was declared but never referenced
-        uint8_t data;
-main.c(72): warning:  #177-D: variable "x_data" was declared but never referenced
-        uint32_t x_data, y_data;
-main.c(72): warning:  #177-D: variable "y_data" was declared but never referenced
-        uint32_t x_data, y_data;
+  	uint8_t data;
+main.c(70): warning:  #177-D: variable "x_data" was declared but never referenced
+  	uint32_t x_data, y_data;
+main.c(70): warning:  #177-D: variable "y_data" was declared but never referenced
+  	uint32_t x_data, y_data;
 main.c: 6 warnings, 0 errors
+compiling gpio_port.c...
+compiling i2c.c...
+compiling adc.c...
+compiling eeprom.c...
+..\drivers\eeprom.c(135): warning:  #550-D: variable "status" was set but never used
+    i2c_status_t status;
+..\drivers\eeprom.c: 1 warning, 0 errors
+compiling pc_buffer.c...
+compiling lcd-dogs.c...
+..\drivers\lcd-dogs.c(44): warning:  #177-D: function "dogs102_assert_reset" was declared but never referenced
+  __INLINE static void dogs102_assert_reset(void)
+..\drivers\lcd-dogs.c: 1 warning, 0 errors
+assembling startup_TM4C123.s...
+compiling spi.c...
+compiling uart_irqs.c...
+compiling wireless.c...
+compiling timers.c...
+compiling uart.c...
+compiling board_util.c...
+compiling system_TM4C123.c...
 linking...
-Program Size: Code=4048 RO-data=652 RW-data=24 ZI-data=4128  
-".\obj\ece353_base_project.axf" - 0 Error(s), 6 Warning(s).
+Program Size: Code=5180 RO-data=652 RW-data=24 ZI-data=4152  
+".\obj\ece353_base_project.axf" - 0 Error(s), 8 Warning(s).
 
 <h2>Software Packages used:</h2>
 
 Package Vendor: ARM
-                http://www.keil.com/pack/ARM.CMSIS.4.1.1.pack
-                ARM::CMSIS:CORE:3.30.0
+                http://www.keil.com/pack/ARM.CMSIS.4.3.0.pack
+                ARM::CMSIS:CORE:4.1.0
                 CMSIS (Cortex Microcontroller Software Interface Standard)
-   * Component: CORE Version: 3.30.0
+   * Component: CORE Version: 4.1.0
 
 Package Vendor: Keil
                 http://www.keil.com/pack/Keil.TM4C_DFP.1.0.0.pack
@@ -41,48 +82,19 @@ Package Vendor: Keil
    * Component: Startup Version: 1.0.0
 
 <h2>Collection of Component include folders:</h2>
-  I:\ECE353\git\ece353\project-src\RTE
-  C:\AppV\mdk_510\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include
-  C:\AppV\mdk_510\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123
+  D:\Google Drive\School\UW-Madison\git\ece353\project-src\RTE
+  C:\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include
+  C:\Keil_v5\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123
 
 <h2>Collection of Component Files used:</h2>
 
-   * Component: ARM::CMSIS:CORE:3.30.0
-      Source file:   CMSIS\UserCodeTemplates\ARM\ITM_Retarget.c
+   * Component: ARM::CMSIS:CORE:4.1.0
 
    * Component: Keil::Device:Startup:1.0.0
       Include file:  Device\Include\TM4C123\TM4C123.h
-      Source file:   Device\Source\ARM\startup_TM4C123.s
       Source file:   Device\Source\system_TM4C123.c
-Load "I:\\ECE353\\git\\ece353\\project-src\\obj\\ece353_base_project.axf" 
-Connecting: Mode=JTAG, Speed=1000000Hz
-Erase Done.
-Programming Done.
-Verify OK.
-ource file:   Device\Source\system_TM4C123.c
-Load "I:\\ECE353\\git\\ece353\\project-src\\obj\\ece353_base_project.axf" 
-Connecting: Mode=JTAG, Speed=1000000Hz
-Erase Done.
-Programming Done.
-Verify OK.
-ude folders:</h2>
-  I:\ECE353\git\ece353\project-src\RTE
-  C:\AppV\mdk_510\ARM\PACK\ARM\CMSIS\4.1.1\CMSIS\Include
-  C:\AppV\mdk_510\ARM\PACK\Keil\TM4C_DFP\1.0.0\Device\Include\TM4C123
-
-<h2>Collection of Component Files used:</h2>
-
-   * Component: ARM::CMSIS:CORE:3.30.0
-      Source file:   CMSIS\UserCodeTemplates\ARM\ITM_Retarget.c
-
-   * Component: Keil::Device:Startup:1.0.0
-      Include file:  Device\Include\TM4C123\TM4C123.h
       Source file:   Device\Source\ARM\startup_TM4C123.s
-      Source file:   Device\Source\system_TM4C123.c
-Load "I:\\ECE353\\git\\ece353\\project-src\\obj\\ece353_base_project.axf" 
-Connecting: Mode=JTAG, Speed=1000000Hz
-Erase Done.
-Programming Done.
-Verify OK.
-Device\Source\system_TM4C123.c
-Target not created
+Build Time Elapsed:  00:00:03
+</pre>
+</body>
+</html>
