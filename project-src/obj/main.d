@@ -25,3 +25,5 @@
 .\obj\main.o: ..\include\spi.h
 .\obj\main.o: ..\include\timers.h
 .\obj\main.o: ..\include\interrupts.h
+.\obj\main.o: ..\include\lcd.h
+.\obj\main.o: ..\include\fonts.h

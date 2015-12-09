@@ -2,3 +2,7 @@
 *.bjmiller6
 *.uvoptx
 *.dep
+*.o
+*.crf
+*.htm
+*.d

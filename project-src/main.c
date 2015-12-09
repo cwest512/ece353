@@ -16,6 +16,7 @@
 #include "wireless.h"
 #include "timers.h"
 #include "interrupts.h"
+#include "lcd.h"
 
 #define TX_MODE	true
 
@@ -50,10 +51,29 @@ void initializeBoard(void)
 //	watchdog_config(500E6);
 	SysTick_Config(25000);
 	//Initializes SPI interface and LCD
-	//lcd_init();	
+	lcd_init();	
 	rfInit();
 	
   EnableInterrupts();
+}
+
+void test_lcd(void)
+{
+  int i,j;
+  
+  //lcd_init();
+
+  dogs102_clear();
+  for(i = 0; i < 7; i++)
+  {
+    
+     dogs102_set_page(i+1);
+    for(j=0; j<56; j++)
+    {
+      dogs102_set_column(j+20);
+      dogs102_write_data(image[i*56 + j]);
+    }
+  }
 }
 
 int 
@@ -76,6 +96,9 @@ main(void)
   wireless_configure_device(myID, remoteID ) ;
   
   printf("\n\r");
+	
+	printf("Displaying image...\n");
+	test_lcd();
 	
 	if(TX_MODE)
 	{
