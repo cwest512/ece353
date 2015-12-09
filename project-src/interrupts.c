@@ -1,9 +1,14 @@
 #include "pc_buffer.h"
 #include "driver_defines.h"
+#include "interrupts.h"
+#include "timers.h"
 //#include "board_config.h"
 
+volatile bool AlertSysTick;
 extern PC_Buffer UART0_Rx_Buffer;
 extern PC_Buffer UART0_Tx_Buffer;
+volatile int count = 0;
+volatile bool updateXY;
 
 
 //*****************************************************************************
@@ -73,4 +78,26 @@ void UART0_Handler(void)
       UART0_Tx_Flow(&UART0_Tx_Buffer);
     }
     return;
+}
+
+void SysTick_Handler(void) 
+{
+	uint32_t val;
+	
+	
+	if(count == 9) {
+		AlertSysTick = true;
+	}
+	else
+		AlertSysTick = false;
+	
+	count = (count + 1) % 10;
+	
+	val = SysTick->VAL;
+	
+}
+void TIMER0A_Handler(void)
+{	
+  updateXY = true;
+	a_timer->ICR = TIMER_ICR_TATOCINT;
 }

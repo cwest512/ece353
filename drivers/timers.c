@@ -1,5 +1,7 @@
 #include "timers.h"
 
+volatile TIMER0_Type *a_timer;
+
 //*****************************************************************************
 // Configure a 16/32 bit general purpose timer to wait a specified number
 // of clock cycles
@@ -85,4 +87,26 @@ bool gp_timer_wait(uint32_t base, uint32_t ticks)
 		while( (gp_timer->RIS & TIMER_RIS_TATORIS) == 0){}
 		
   return true;
+}
+void timer0_configA(uint16_t ticks)
+{
+		// Turn on the clock for the timer
+		SYSCTL->RCGCTIMER |= SYSCTL_RCGCTIMER_R0;
+		// Wait for the timer to turn on
+		while( (SYSCTL->PRTIMER & SYSCTL_PRTIMER_R0) == 0) {};
+		//Cast address to TIMER0_Type pointer
+		a_timer = (TIMER0_Type *) TIMER0_BASE;
+		//Disable timerA
+		a_timer->CTL &= ~(TIMER_CTL_TAEN);
+		//Set timer as 32 bit
+		a_timer->CFG = TIMER_CFG_32_BIT_TIMER;
+		//Set timer as a count-down and periodic
+		a_timer->TAMR = TIMER_TAMR_TAMR_PERIOD;
+		//Set the number of clock cycles (ticks) to count down from
+		a_timer->TAILR = ticks;
+		//Clear TimerA interrupt
+		a_timer->ICR |= TIMER_ICR_TATOCINT;	
+		//Enable interrupts by setting the mask and registering with the NVIC
+		a_timer->IMR |= TIMER_IMR_TATOIM;
+		NVIC_EnableIRQ(TIMER0A_IRQn);
 }
