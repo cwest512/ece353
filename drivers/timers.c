@@ -114,7 +114,7 @@ void timer0_configA(uint16_t ticks)
 
 void timer1_configA(uint32_t ticks)
 {
-			// Turn on the clock for the timer
+		// Turn on the clock for the timer
 		SYSCTL->RCGCTIMER |= SYSCTL_RCGCTIMER_R1;
 		// Wait for the timer to turn on
 		while( (SYSCTL->PRTIMER & SYSCTL_PRTIMER_R1) == 0) {};
@@ -133,7 +133,12 @@ void timer1_configA(uint32_t ticks)
 		//Enable interrupts by setting the mask and registering with the NVIC
 		one_timer->IMR |= TIMER_IMR_TATOIM;
 		NVIC_EnableIRQ(TIMER1A_IRQn);
-	
-	
+}
+
+void watchdog_config(uint32_t ticks)
+{
+//	RCGCWD
+//	PRTIMER_WD
+//	WTIMER0_BASE->LOAD = ticks;
 	
 }
