@@ -25,7 +25,7 @@
  *****************************************************************************/
 // ADD CODE
 uint8_t myID[]      = { '3', '5', '3', '0', '4'};
-uint8_t remoteID[]  = { '3', '5', '3', '4', '4'};
+uint8_t remoteID[]  = { '3', '5', '3', '1', '3'};
 uint32_t data = 0xFFFF;
 uint32_t ps2data = 0xFFFF;
 uint32_t upcounter = 0;

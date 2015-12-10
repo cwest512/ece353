@@ -30,8 +30,10 @@
 
 
 #include "TM4C123.h"
-#include "board_setup.h"
+#include "board_util.h"
+//#include "board_setup.h"
 #include "interrupts.h"
+#include "wireless.h"
 
 #define TX_MODE	true
 
@@ -65,7 +67,7 @@ main(void)
   int i = 0;
   
   initializeBoard();
-	verify_rf_spi_interface();
+	//verify_rf_spi_interface();
 	
   printf("\n\r");
   printf("**************************************\n\r");
