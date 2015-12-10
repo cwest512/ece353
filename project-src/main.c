@@ -57,21 +57,19 @@ void initializeBoard(void)
   EnableInterrupts();
 }
 
-void test_lcd(void)
+void test_lcd(uint8_t image[])
 {
   int i,j;
-  
-  //lcd_init();
 
   dogs102_clear();
-  for(i = 0; i < 7; i++)
+  for(i = 0; i < 8; i++)
   {
     
-     dogs102_set_page(i+1);
-    for(j=0; j<56; j++)
+    dogs102_set_page(i);
+    for(j=0; j<102; j++)
     {
-      dogs102_set_column(j+20);
-      dogs102_write_data(image[i*56 + j]);
+      dogs102_set_column(j);
+      dogs102_write_data(image[i*102 + j]);
     }
   }
 }
@@ -98,7 +96,7 @@ main(void)
   printf("\n\r");
 	
 	printf("Displaying image...\n");
-	test_lcd();
+	test_lcd(push_ps2);
 	
 	if(TX_MODE)
 	{

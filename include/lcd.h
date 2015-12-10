@@ -57,7 +57,15 @@
 #define   LCD_RST_N_PIN       PC7
 #define   LCD_RST_N_PORT			GPIOC
 
-extern const uint8_t image[];
+extern uint8_t push_up[];
+extern uint8_t push_down[];
+extern uint8_t push_left[];
+extern uint8_t push_right[];
+extern uint8_t push_ps2[];
+extern uint8_t flick_up[];
+extern uint8_t flick_down[];
+extern uint8_t flick_left[];
+extern  uint8_t flick_right[];
 
 //*****************************************************************************
 // Provided initialization code for the LCD.  Found in the data sheet.
