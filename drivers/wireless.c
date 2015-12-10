@@ -115,10 +115,10 @@ static __INLINE uint8_t wireless_reg_read(uint8_t reg)
 	uint8_t received[NUM_BYTES];
 	//Isolate last 5 bits
 	reg &= 0x1F;
-	command[1] = reg;
-	command[0] = 0;
+	command[1] = 0;
+	command[0] = reg;
 	wireless_CSN_low();
-	spiTx(wirelessPinConfig.wireless_spi_base,&command[0],NUM_BYTES,&received[0]);
+	spiTx(wirelessPinConfig.wireless_spi_base,command,NUM_BYTES,received);
 	wireless_CSN_high();
 	return received[1];
 }
@@ -143,10 +143,10 @@ static __INLINE void wireless_reg_write(uint8_t reg, uint8_t data)
 	//Isolate last 5 bits
 	reg &= 0x1F;
 	//Shift bits to MSB
-	command[1] = (1 << 5) | reg;
-	command[0] = data;
+	command[1] = data;
+	command[0] = (1 << 5) | reg;
 	wireless_CSN_low();
-	spiTx(wirelessPinConfig.wireless_spi_base,&command[0],NUM_BYTES,&received[0]);
+	spiTx(wirelessPinConfig.wireless_spi_base,command,NUM_BYTES,received);
 	wireless_CSN_high();
 
 }
@@ -177,7 +177,7 @@ static __INLINE uint32_t wireless_set_tx_addr(uint8_t  *tx_addr)
 		tx_addr++;
 	}
 	wireless_CSN_low();
-	spiTx(wirelessPinConfig.wireless_spi_base,&command[0],6,&received[0]);
+	spiTx(wirelessPinConfig.wireless_spi_base,command,6,received);
 	wireless_CSN_high();
 	return (uint32_t) *received;
 }
@@ -205,7 +205,7 @@ static __INLINE void wireless_tx_data_payload( uint32_t data)
 		data_arr++;
 	}
 	wireless_CSN_low();
-	spiTx(wirelessPinConfig.wireless_spi_base,&command[0],5,&received[0]);
+	spiTx(wirelessPinConfig.wireless_spi_base,command,5,received);
 	wireless_CSN_high();
 }
 
@@ -224,11 +224,16 @@ static __INLINE void wireless_tx_data_payload( uint32_t data)
 static __INLINE void wireless_rx_data_payload( uint32_t *data)
 {
 	uint8_t* ptr;
-	uint8_t command[5];
-	command[0] = 0xE1;
-	wireless_CSN_low();
+	uint8_t rx_data[5];
+	uint8_t tx_data[5] = {0,0,0,0,0};
+	tx_data[0] = NRF24L01_CMD_R_RX_PAYLOAD;
+	wireless_CSN_low();	
+	spiTx(wirelessPinConfig.wireless_spi_base,tx_data,5,rx_data);
 	ptr = (uint8_t*) data;
-	spiTx(wirelessPinConfig.wireless_spi_base,&command[0],5,ptr);
+	ptr[3] = rx_data[1];
+	ptr[2] = rx_data[2];
+	ptr[1] = rx_data[3];
+	ptr[0] = rx_data[4];
 	wireless_CSN_high();
 }
 

@@ -93,6 +93,7 @@ bool initialize_spi( uint32_t base_addr, uint8_t spi_mode, uint32_t cpsr)
     // Assume that we hvae a 50MHz clock
     // FSSIClk = FSysClk / (CPSDVSR * (1 + SCR))
     // Modify CPSR and CR0
+		mySSI->CC = 0;
 		mySSI->CPSR = cpsr;
 		mySSI->CR0  &=  ~SSI_CR0_SCR_M;
 
@@ -129,7 +130,8 @@ bool initialize_spi( uint32_t base_addr, uint8_t spi_mode, uint32_t cpsr)
     
 		// ************* ADD CODE *********************** //
     //Enable SSI peripheral in master mode
-    
+		mySSI->CR1 &= ~SSI_CR1_MS;
+    mySSI->CR1 |= SSI_CR1_SSE;
 
   return true;
 }
@@ -163,7 +165,7 @@ void spiTx(uint32_t base, uint8_t *tx_data, int num_bytes, uint8_t *rx_data)
   }
                   
   //Enable SSI
-  mySSI->CR1 |= SSI_CR1_SSE;
+	mySSI->CR1 |= SSI_CR1_SSE;
   
   for( count = 0; count < num_bytes; count++)
   {
