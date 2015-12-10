@@ -2,6 +2,7 @@
 
 volatile TIMER0_Type *a_timer;
 volatile TIMER0_Type *one_timer;
+volatile WATCHDOG0_Type *wd_timer;
 
 //*****************************************************************************
 // Configure a 16/32 bit general purpose timer to wait a specified number
@@ -137,8 +138,18 @@ void timer1_configA(uint32_t ticks)
 
 void watchdog_config(uint32_t ticks)
 {
-//	RCGCWD
-//	PRTIMER_WD
-//	WTIMER0_BASE->LOAD = ticks;
+		SYSCTL->RCGCWD |= SYSCTL_RCGCWD_R0;
+		while( (SYSCTL->PRWD & SYSCTL_PRWD_R0) == 0) {};
+			
+		wd_timer = (WATCHDOG0_Type *) WTIMER0_BASE;
+			
+		wd_timer->LOAD = ticks;	
+			
+		// Set RESEN bit to trigger hardware reset
+		//wd_timer->CTL |= 0x02;
+		
+		//Set INTEN to register and enable the watchdog
+		
+		wd_timer->CTL = 0x01;
 	
 }

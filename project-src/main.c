@@ -48,7 +48,7 @@ void initializeBoard(void)
 	i2cInit();
 	timer0_configA(25000);
 	timer1_configA(250E6);
-//	watchdog_config(500E6);
+	watchdog_config(500E6);
 	SysTick_Config(25000);
 	//Initializes SPI interface and LCD
 	lcd_init();	
@@ -131,6 +131,7 @@ main(void)
         if(status == NRF24L01_RX_SUCCESS)
         {
             printf("Received: %d\n\r", data);
+						//petTheDog();
         }
         
         AlertOneSec = false;

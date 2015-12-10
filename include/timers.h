@@ -16,5 +16,6 @@ extern volatile TIMER0_Type *one_timer;
 bool gp_timer_wait(uint32_t base, uint32_t ticks);
 void timer0_configA(uint16_t ticks);
 void timer1_configA(uint32_t ticks);
+void watchdog_config(uint32_t ticks);
 
 #endif
