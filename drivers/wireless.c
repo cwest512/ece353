@@ -199,11 +199,12 @@ static __INLINE void wireless_tx_data_payload( uint32_t data)
 	uint8_t received[5];
 	uint8_t* data_arr = (uint8_t*) &data;
 	command[0] = 0xA0;
-	for(i = 1; i < 5; i++)
-	{
-		command[i] = *data_arr;
-		data_arr++;
-	}
+	command[1] = data_arr[3];
+	command[2] = data_arr[2];
+	command[3] = data_arr[1];
+	command[4] = data_arr[0];
+	
+	printf("Data_arr: %d %d %d %d %d\n",command[0],command[1],command[2],command[3],command[4]);
 	wireless_CSN_low();
 	spiTx(wirelessPinConfig.wireless_spi_base,command,5,received);
 	wireless_CSN_high();
