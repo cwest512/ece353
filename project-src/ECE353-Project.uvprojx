@@ -484,6 +484,11 @@
               <FileType>1</FileType>
               <FilePath>.\board_util.c</FilePath>
             </File>
+            <File>
+              <FileName>gamelogic.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drivers\gamelogic.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

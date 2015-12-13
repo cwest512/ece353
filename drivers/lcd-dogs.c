@@ -203,7 +203,6 @@ void dogs102_set_page(uint8_t   page)
     
     //Exit Command Mode
 		dogs102_deassert_cmd_mode();
-    
   }
 
 //*****************************************************************************
@@ -454,5 +453,22 @@ void lcd_init(void)
   initialize_spi( LCD_SPI_BASE, 3, 2);
   
 	dogs102_init();	
+}
+
+void print_lcd(uint8_t image[])
+{
+  int i,j;
+
+  dogs102_clear();
+  for(i = 0; i < 8; i++)
+  {
+    
+    dogs102_set_page(i);
+    for(j=0; j<102; j++)
+    {
+      dogs102_set_column(j);
+      dogs102_write_data(image[i*102 + j]);
+    }
+  }
 }
 

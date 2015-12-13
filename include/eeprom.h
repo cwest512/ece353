@@ -8,8 +8,8 @@
 #define MCP24LC32AT_DEV_ID    0x50
 
 #define FIRST_NAME_ADDR				0x00
-#define	LAST_NAME_ADDR				0x28
-#define	TEAM_NUMBER_ADDR			0x50
+#define	LAST_NAME_ADDR				0x50
+#define	TEAM_NUMBER_ADDR			0xA0
 
 i2c_status_t eeprom_byte_write
 ( 

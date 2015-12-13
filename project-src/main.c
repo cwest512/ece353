@@ -6,6 +6,8 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdbool.h>
+#include <stdlib.h>
+#include <time.h>
 #include "TM4C123.h"
 #include "eeprom.h"
 #include "board_util.h"
@@ -17,8 +19,20 @@
 #include "timers.h"
 #include "interrupts.h"
 #include "lcd.h"
+#include "gamelogic.h"
 
 #define TX_MODE	true
+#define BTN_UP 0x1
+#define BTN_DOWN 0x2
+#define BTN_LEFT 0x4
+#define BTN_RIGHT 0x8
+#define BTN_PS2 0x10
+#define PS2_UP 0x20
+#define PS2_DOWN 0x40
+#define PS2_LEFT 0x80
+#define PS2_RIGHT 0x100
+
+
 
 /******************************************************************************
  * Global Variables
@@ -26,14 +40,7 @@
 // ADD CODE
 uint8_t myID[]      = { '3', '5', '3', '0', '4'};
 uint8_t remoteID[]  = { '3', '5', '3', '1', '3'};
-uint32_t data = 0xFFFF;
-uint32_t ps2data = 0xFFFF;
-uint32_t upcounter = 0;
-uint32_t downcounter = 0;
-uint32_t leftcounter = 0;
-uint32_t rightcounter = 0;
-uint32_t ps2counter = 0;
-uint32_t x_data, y_data;
+
 
 //*****************************************************************************
 //*****************************************************************************
@@ -50,6 +57,7 @@ void initializeBoard(void)
 	timer1_configA(250E6);
 	watchdog_config(500E6);
 	SysTick_Config(25000);
+	srand(5);
 	//Initializes SPI interface and LCD
 	lcd_init();	
 	rfInit();
@@ -57,29 +65,15 @@ void initializeBoard(void)
   EnableInterrupts();
 }
 
-void test_lcd(uint8_t image[])
-{
-  int i,j;
-
-  dogs102_clear();
-  for(i = 0; i < 8; i++)
-  {
-    
-    dogs102_set_page(i);
-    for(j=0; j<102; j++)
-    {
-      dogs102_set_column(j);
-      dogs102_write_data(image[i*102 + j]);
-    }
-  }
-}
 
 int 
 main(void)
 {	
 	wireless_com_status_t status;
-  //uint32_t data;
+	int buttonToBePressed;
+	bool correct = true;
   int i = 0;
+	uint16_t *pressed = (uint16_t *) malloc(sizeof(uint16_t));
 	
 	initializeBoard();
 	  printf("\n\r");
@@ -92,12 +86,11 @@ main(void)
   printf("RmID:%c%c%c%c%c\n\r",remoteID[0],remoteID[1],remoteID[2],remoteID[3],remoteID[4]);
   
   wireless_configure_device(myID, remoteID ) ;
-  
+  buttonToBePressed = random_generate();
   printf("\n\r");
-	
 	printf("Displaying image...\n");
-	test_lcd(push_ps2);
 	
+	*pressed = 0;
 	if(TX_MODE)
 	{
 		printf("Tx Mode\n\r");
@@ -114,110 +107,56 @@ main(void)
   while(1)
   {
 
-      if(TX_MODE && AlertOneSec)
-      {
-				printf("test wireless_send");
-//          printf("Sending: %d\n\r",i);
-//          status = wireless_send_32(false, false, i);
-//          AlertOneSec = false;
-//          i++;
-				AlertOneSec = false;
-      }
-      else if (!TX_MODE)
-      {
-        status =  wireless_get_32(false, &data);
-        if(status == NRF24L01_RX_SUCCESS)
-        {
-            printf("Received: %d\n\r", data);
-						//petTheDog();
-        }
-        
-        AlertOneSec = false;
-      }
-		
-		if(AlertSysTick)
+//      if(TX_MODE && AlertOneSec)
+//      {
+//				printf("test wireless_send");
+////          printf("Sending: %d\n\r",i);
+////          status = wireless_send_32(false, false, i);
+////          AlertOneSec = false;
+////          i++;
+//				AlertOneSec = false;
+//      }
+//      else if (!TX_MODE)
+//      {
+//        status =  wireless_get_32(false, &data);
+//        if(status == NRF24L01_RX_SUCCESS)
+//        {
+//            printf("Received: %d\n\r", data);
+//						//petTheDog();
+//        }
+//        
+//        AlertOneSec = false;
+//      }
+
+
+
+		for(i = 0; i < 10000000; i++)
 		{
-			data = GPIOF->DATA;
-			ps2data = GPIOE->DATA;
-		}
-		
-		if((data & DIR_BTN_UP) == 0)
-		{
-			upcounter++;
-			if(upcounter >= 4)
+			
+			read_buttons(pressed);
+			if( buttonToBePressed == *pressed)
 			{
-				printf("up is pressed\n");
+				correct = true;
+				i=10000000;
+			}
+			else if ( (~buttonToBePressed & *pressed) != 0 )
+			{
+				i=10000000;
+				correct = false;		
 			}
 		}
-		else {
-			upcounter = 0;
-		}
-		
-		if( (data & DIR_BTN_DOWN) == 0)
+		if(correct)
 		{
-			downcounter++;
-			if(downcounter >= 4)
-			{
-				printf("down is pressed\n");
-			}
+			buttonToBePressed = random_generate();
+			printf("correct");
 		}
-		else {
-			downcounter = 0;
-		}
-		
-		if( (data & DIR_BTN_LEFT) == 0)
+		else
 		{
-			leftcounter++;
-			if(leftcounter >= 4)
-			{
-				printf("left is pressed\n");
-			}
+			printf("wrong");
+			buttonToBePressed = random_generate();
 		}
-		else {
-			leftcounter = 0;
-		}
-		
-		if( (data & DIR_BTN_RIGHT) == 0)
-		{
-			rightcounter++;
-			if(rightcounter >= 4)
-			{
-				printf("right is pressed\n");
-			}
-		}
-		else {
-			rightcounter = 0;
-		}
-		
-		if( ((ps2data & PS2_BTN) == 0))
-		{
-			ps2counter++;
-			if(ps2counter >= 4)
-			{
-				printf("ps2 is pressed\n");
-			}
-		}
-		else {
-			ps2counter = 0;
-		}
-		if(updateXY)
-		{
-				x_data = getADCValue(PS2_ADC_BASE,PS2_X_ADC_CHANNEL);
-				y_data = getADCValue(PS2_ADC_BASE,PS2_Y_ADC_CHANNEL);
-				//printf("X Dir value : 0x%03x        Y Dir value : 0x%03x\r",x_data, y_data);
-				if(y_data > 0xc00)
-					printf("y up\n");
-				if(y_data < 0x400)
-					printf("y down\n");
-				if(x_data > 0xc00)
-						printf("x up\n");
-				if(x_data < 0x400)
-						printf("x down\n");
-				updateXY = false;
-		}
-//			  memset(input,0,80);
-//				printf("\n\rEnter a string: ");
-//				scanf("%79[^\n]", input);
-//				printf("You entered: %s\n\r",input);
-    }
+		while(initState);
+		*pressed = 0;
+
+	}
 }

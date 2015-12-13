@@ -117,5 +117,6 @@ void dogs102_clear(void);
 // Initialize the LCD peripheral
 //*****************************************************************************
 void lcd_init(void);
+void print_lcd(uint8_t image[]);
 
 #endif
