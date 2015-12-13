@@ -122,7 +122,7 @@ main(void)
 //        if(status == NRF24L01_RX_SUCCESS)
 //        {
 //            printf("Received: %d\n\r", data);
-//						//petTheDog();
+//						
 //        }
 //        
 //        AlertOneSec = false;
@@ -157,6 +157,8 @@ main(void)
 		}
 		while(initState);
 		*pressed = 0;
+		
+		petTheDog(500E6);
 
 	}
 }

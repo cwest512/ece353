@@ -108,3 +108,9 @@ void TIMER1A_Handler(void)
   AlertOneSec = true;
 	one_timer->ICR = TIMER_ICR_TATOCINT;
 }
+
+void WDT0_Handler(void)
+{
+	printf("You didn't pet the dog!");
+}
+

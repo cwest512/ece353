@@ -138,18 +138,26 @@ void timer1_configA(uint32_t ticks)
 
 void watchdog_config(uint32_t ticks)
 {
-//		SYSCTL->RCGCWD |= SYSCTL_RCGCWD_R0;
-//		while( (SYSCTL->PRWD & SYSCTL_PRWD_R0) == 0) {};
-//			
-//		wd_timer = (WATCHDOG0_Type *) WTIMER0_BASE;
-//			
-//		wd_timer->LOAD = ticks;	
-//			
-//		// Set RESEN bit to trigger hardware reset
-//		//wd_timer->CTL |= 0x02;
-//		
-//		//Set INTEN to register and enable the watchdog
-//		
-//		wd_timer->CTL = 0x01;
+		SYSCTL->RCGCWD |= SYSCTL_RCGCWD_R0;
+		while( (SYSCTL->PRWD & SYSCTL_PRWD_R0) == 0) {};
+			
+		wd_timer = (WATCHDOG0_Type *) WATCHDOG0_BASE;
+			
+		wd_timer->LOAD = ticks;	
+		NVIC_EnableIRQ(WATCHDOG0_IRQn);
+		// Set RESEN bit to trigger hardware reset
+		//wd_timer->CTL |= 0x02;
+		
+		//Set INTEN to register and enable the watchdog
+		
+		wd_timer->CTL = 0x01;
 	
 }
+
+void petTheDog(uint32_t ticks)
+{
+	wd_timer = (WATCHDOG0_Type *) WATCHDOG0_BASE;
+
+		wd_timer->LOAD = ticks;
+}
+
