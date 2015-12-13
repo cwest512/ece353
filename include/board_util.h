@@ -145,6 +145,7 @@ void EnableInterrupts(void);
 void adc_init(void);
 void pushButton_init(void);
 void rfInit(void);
+void test_portD_interrupt(void);
 void uart0_config_gpio(void);
 
 #endif

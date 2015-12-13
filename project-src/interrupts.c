@@ -2,7 +2,7 @@
 #include "driver_defines.h"
 #include "interrupts.h"
 #include "timers.h"
-//#include "board_config.h"
+#include "board_util.h"
 
 volatile bool AlertSysTick;
 volatile bool AlertOneSec;
@@ -10,6 +10,7 @@ extern PC_Buffer UART0_Rx_Buffer;
 extern PC_Buffer UART0_Tx_Buffer;
 volatile int count = 0;
 volatile bool updateXY;
+volatile bool aiReady = false;
 
 
 //*****************************************************************************
@@ -115,6 +116,15 @@ void WDT0_Handler(void)
 }
 
 void GPIOD_Handler(void)
+{  	
+		while(true){printf("Handler D has been triggered\n");}
+}
+
+void ADC0SS1_Handler(void)
 {
-  	printf("Handler D has been triggered");
+	ADC0_Type* myADC;
+	aiReady = true;
+	myADC = (ADC0_Type *)PS2_ADC_BASE;
+	//Clear interrupt
+	myADC->ISC = 2;
 }

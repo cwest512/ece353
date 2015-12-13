@@ -49,21 +49,26 @@ bool initializeADC(  uint32_t adc_base )
   myADC = (ADC0_Type *)adc_base;
   
   // ADD CODE
-  // disable sample sequencer #3 by writing a 0 to the 
+  // disable sample sequencer #1 by writing a 0 to the 
   // corresponding ASENn bit in the ADCACTSS register 
 		
-	myADC->ACTSS &= ~ADC_ACTSS_ASEN3;
+		myADC->IM = 0;
+		
+	myADC->ACTSS &= ~ADC_ACTSS_ASEN1;
 
   // ADD CODE
   // Set the event multiplexer to trigger conversion on a processor trigger
-  // for sample sequencer #3.
+  // for sample sequencer #1.
 		
-	myADC->EMUX  &= ~ADC_EMUX_EM3_M;
-	myADC->EMUX  |= ADC_EMUX_EM3_PROCESSOR;
+	myADC->EMUX  &= ~ADC_EMUX_EM1_M;
+	myADC->EMUX  |= ADC_EMUX_EM1_PROCESSOR;
 
   // ADD CODE
   // Set IE0 and END0 in SSCTL3
-  myADC->SSCTL3 = ADC_SSCTL3_IE0 | ADC_SSCTL3_END0;
+  myADC->SSCTL1 = ADC_SSCTL1_IE1 | ADC_SSCTL1_END1;
+	NVIC_EnableIRQ(ADC0SS1_IRQn);
+		myADC->IM = 2;
+	
 		
   return true;
 }
@@ -83,20 +88,20 @@ uint32_t getADCValue( uint32_t adc_base, uint8_t channel)
   
   myADC = (ADC0_Type *)adc_base;
   
-  myADC->SSMUX3 = channel;          // Set the Channel
+  myADC->SSMUX1 = channel;          // Set the Channel
   
-  myADC->ACTSS |= ADC_ACTSS_ASEN3;  // Enable SS3
+  myADC->ACTSS |= ADC_ACTSS_ASEN1;  // Enable SS3
   
-  myADC->PSSI =   ADC_PSSI_SS3;     // Start SS3
+  myADC->PSSI =   ADC_PSSI_SS1;     // Start SS3
   
-  while( (myADC->RIS & ADC_RIS_INR3)  == 0)
+  while( (myADC->RIS & ADC_RIS_INR1)  == 0)
   {
     // wait
   }
   
-  result = myADC->SSFIFO3 & 0xFFF;    // Read 12-bit data
+  result = myADC->SSFIFO1 & 0xFFF;    // Read 12-bit data
   
-  myADC->ISC  = ADC_ISC_IN3;          // Ack the conversion
+  myADC->ISC  = ADC_ISC_IN1;          // Ack the conversion
   
   return result;
 }

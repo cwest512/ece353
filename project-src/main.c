@@ -61,7 +61,7 @@ void initializeBoard(void)
 	wireless_configure_device(myID, remoteID );
 	lcd_init();	
 	rfInit();
-	
+	//test_portD_interrupt();
   EnableInterrupts();
 }
 
@@ -69,6 +69,7 @@ void initializeBoard(void)
 int 
 main(void)
 {	
+	GPIOA_Type  *gpioPort;
 	wireless_com_status_t status;
 	int buttonToBePressed;
 	bool correct = true;
@@ -114,6 +115,11 @@ main(void)
 		
 		while(wait)
 		{
+				
+				//gpioPort = (GPIOA_Type *)GPIOD_BASE;
+			
+				//printf("%d\n",gpioPort->RIS);
+					
 			read_buttons(pressed);
 			if( buttonToBePressed == *pressed)
 			{
@@ -126,7 +132,7 @@ main(void)
 				correct = false;		
 			}
 			i++;
-		}
+		
 		
 		if(correct)
 		{
@@ -145,7 +151,7 @@ main(void)
 		}
 		
 		buttonToBePressed = random_generate();
-		
+		}
 		
 
 	}

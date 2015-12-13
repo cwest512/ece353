@@ -117,9 +117,11 @@ void read_buttons(uint16_t *pressed)
 		AlertSysTick = false;
 		if(updateXY)
 		{
+			while(!aiReady){};
+				aiReady = false;
 				x_data = getADCValue(PS2_ADC_BASE,PS2_X_ADC_CHANNEL);
 				y_data = getADCValue(PS2_ADC_BASE,PS2_Y_ADC_CHANNEL);
-				//printf("X Dir value : 0x%03x        Y Dir value : 0x%03x\r",x_data, y_data);
+				printf("X Dir value : 0x%03x        Y Dir value : 0x%03x\r",x_data, y_data);
 				if(y_data > 0xa00)
 				{
 					initState = false;
@@ -232,5 +234,5 @@ void endGame(uint8_t image[], uint8_t score)
 		dogs102_write_char_10pts(2, ' ', 7);
 		dogs102_write_char_10pts(2, c, 8);
 	}
-	while(true);
+	//while(true);
 }

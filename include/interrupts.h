@@ -12,6 +12,7 @@ extern volatile bool AlertOneSec;
 extern PC_Buffer UART0_Rx_Buffer;
 extern PC_Buffer UART0_Tx_Buffer;
 extern volatile bool updateXY;
+extern volatile bool aiReady;
 
 __INLINE static void UART0_Rx_Flow(PC_Buffer *rx_buffer);
 __INLINE static void UART0_Tx_Flow(PC_Buffer *tx_buffer);

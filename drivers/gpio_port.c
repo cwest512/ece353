@@ -527,19 +527,21 @@ bool gpio_enable_interrupt(uint32_t baseAddr, bool activeHigh)
        return false;
      }
    }
-
+	gpioPort = (GPIOA_Type *)GPIOD_BASE;
 	//Clear Interrupt Mask
 	gpioPort->IM = 0x00;
 	//Set Interrupt as edge sensitive
 	gpioPort->IS = 0;
 	// Clear "Both Edges" register
-	gpioPort->IBE = 0;
+	//gpioPort->IBE = 0;
 	// Set edge event register
-//	gpioPort->IEV = activeHigh;
+	gpioPort->IEV = 0;
 	//Clear interrupt
 	gpioPort->ICR = 0x01;
+	 //Clear RIS
+	 gpioPort->RIS = 0;
 	// Write to Interrupt Controller
-	NVIC_EnableIRQ(irqn);
+	//NVIC_EnableIRQ(irqn);
 	 
 	// Unmask Interrupt Mask
 	 gpioPort->IM = 0x01;
