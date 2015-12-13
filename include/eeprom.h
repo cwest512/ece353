@@ -29,4 +29,6 @@ void read_eeprom(uint8_t* data, uint8_t size, uint16_t address);
 
 void write_eeprom(uint8_t* data, uint8_t size, uint16_t address);
 
+void edit_eeprom(void);
+
 #endif

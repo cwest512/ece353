@@ -1,3 +1,9 @@
+#include <stdio.h>
+#include <stdint.h>
+#include <string.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <time.h>
 #include "eeprom.h"
 #include "board_util.h"
 
@@ -201,3 +207,72 @@ void write_eeprom(uint8_t* data, uint8_t size, uint16_t address)
 		eeprom_byte_write(EEPROM_I2C_BASE,address + i, data[i]);
 	}
 }
+
+void edit_eeprom(void)
+{
+	char input[80];
+	int j;
+	uint8_t toRead[80];
+		
+	printf("Modify EEPROM Contents");
+	
+	//Student One
+	printf("\nStudent 1: ");
+	
+	for(j = 0; j < 80; j++)
+		eeprom_byte_read(EEPROM_I2C_BASE, j, &toRead[j] );
+		
+	for(j = 0; j < 80; j++)
+		printf("%c", toRead[j]);
+		
+	printf("\n\rStudent 1: ");
+	memset(input,0,80);
+	scanf("%79[^\n]", input);
+	
+	if(!(input[0] == NULL))
+	{
+		for(j = 0; j < 80; j++)
+			eeprom_byte_write(EEPROM_I2C_BASE, j, input[j]);
+	}
+	//Student 2
+	printf("\nStudent 2: ");
+	
+	for(j = 0; j < 80; j++)
+		eeprom_byte_read(EEPROM_I2C_BASE, j+80, &toRead[j] );
+		
+	for(j = 0; j < 80; j++)
+		printf("%c", toRead[j]);
+		
+	printf("\n\rStudent 2: ");
+	memset(input,0,80);
+	scanf("%79[^\n]", input);
+	
+	if(!(input[0] == NULL))
+	{
+		for(j = 0; j < 80; j++)
+			eeprom_byte_write(EEPROM_I2C_BASE, j+80, input[j]);
+	}
+		
+	//Group #
+	printf("\nTeam Number: ");
+	
+	for(j = 0; j < 2; j++)
+		eeprom_byte_read(EEPROM_I2C_BASE, j+160, &toRead[j] );
+		
+	for(j = 0; j < 2; j++)
+		printf("%c", toRead[j]);
+		
+	printf("\n\rTeam Number: ");
+	memset(input,0,2);
+	scanf("%79[^\n]", input);
+	
+	if(!(input[0] == NULL))
+	{
+		for(j = 0; j < 2; j++)
+			eeprom_byte_write(EEPROM_I2C_BASE, j+160, input[j]);
+	}
+
+	//SOFTWARE RESET
+	NVIC_SystemReset();
+}
+
