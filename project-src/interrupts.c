@@ -114,3 +114,7 @@ void WDT0_Handler(void)
 	printf("You didn't pet the dog!");
 }
 
+void GPIOD_Handler(void)
+{
+  	printf("Handler D has been triggered");
+}

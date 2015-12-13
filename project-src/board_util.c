@@ -145,6 +145,8 @@ void rfInit(void)
   gpio_enable_port(RF_CE_GPIO_BASE);
   gpio_config_digital_enable(  RF_CE_GPIO_BASE,RF_CE_PIN);
   gpio_config_enable_output(    RF_CE_GPIO_BASE,RF_CE_PIN);
+	
+	gpio_enable_interrupt(RF_GPIO_BASE,false);
 
   initialize_spi( RF_SPI_BASE, 0, 10);
   RF_CE_PERIH->DATA |= (1 << 1);

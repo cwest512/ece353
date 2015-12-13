@@ -471,3 +471,77 @@ bool  gpio_config_uart(uint32_t baseAddr)
 	return true;
 }
 
+bool gpio_enable_interrupt(uint32_t baseAddr, bool activeHigh)
+{
+	GPIOA_Type *gpioPort;
+	uint32_t 		irqn;
+	
+	// Verify that the base address is a valid GPIO base address
+  // using the verifyBaseAddr function provided above
+	if(!verifyBaseAddr(baseAddr))
+	{
+		return false;
+	}
+	// Type Cast the base address to a GPIOA_Type pointer
+	gpioPort = (GPIOA_Type *)baseAddr;
+	
+	switch( baseAddr )
+   {
+     case GPIOA_BASE:
+     {
+      
+			 irqn = GPIOA_IRQn;
+			 break;
+     }
+     case GPIOB_BASE:
+     {
+			 irqn = GPIOB_IRQn;
+       break;
+     }
+     case GPIOC_BASE:
+     {
+       
+				irqn = GPIOC_IRQn;
+				break;
+     }
+     case GPIOD_BASE:
+     {
+       
+				irqn = GPIOD_IRQn;
+				break;
+     }
+     case GPIOE_BASE:
+     {
+       
+				irqn = GPIOE_IRQn;
+				break;
+     }
+     case GPIOF_BASE:
+     {
+       
+				irqn = GPIOF_IRQn;
+				break;
+     }
+     default:
+     {
+       return false;
+     }
+   }
+
+	//Clear Interrupt Mask
+	gpioPort->IM = 0x00;
+	//Set Interrupt as edge sensitive
+	gpioPort->IS = 0;
+	// Clear "Both Edges" register
+	gpioPort->IBE = 0;
+	// Set edge event register
+//	gpioPort->IEV = activeHigh;
+	//Clear interrupt
+	gpioPort->ICR = 0x01;
+	// Write to Interrupt Controller
+	NVIC_EnableIRQ(irqn);
+	 
+	// Unmask Interrupt Mask
+	 gpioPort->IM = 0x01;
+	
+}
