@@ -58,7 +58,7 @@ void initializeBoard(void)
 	watchdog_config(500E6);
 	SysTick_Config(25000);
 	srand(5);
-	//Initializes SPI interface and LCD
+	wireless_configure_device(myID, remoteID );
 	lcd_init();	
 	rfInit();
 	
@@ -72,38 +72,17 @@ main(void)
 	wireless_com_status_t status;
 	int buttonToBePressed;
 	bool correct = true;
+	bool wait;
   int i = 0;
+	uint8_t score = 0;
 	uint16_t *pressed = (uint16_t *) malloc(sizeof(uint16_t));
 	
 	initializeBoard();
-	  printf("\n\r");
-  printf("**************************************\n\r");
-  printf("* ECE353 - SPI ICE\n\r");
-  printf("**************************************\n\r");
-  printf("\n\r");
-  
-  printf("MyID:%c%c%c%c%c\n\r",myID[0],myID[1],myID[2],myID[3],myID[4]);
-  printf("RmID:%c%c%c%c%c\n\r",remoteID[0],remoteID[1],remoteID[2],remoteID[3],remoteID[4]);
-  
-  wireless_configure_device(myID, remoteID ) ;
   buttonToBePressed = random_generate();
-  printf("\n\r");
-	printf("Displaying image...\n");
-	
-	*pressed = 0;
-	if(TX_MODE)
-	{
-		printf("Tx Mode\n\r");
-	}
-	else
-	{
-		printf("Rx Mode\n\r");
-	}
-	
-	//turn on timer0A
+
 	a_timer->CTL |= TIMER_CTL_TAEN;
 	one_timer->CTL |= TIMER_CTL_TAEN;
-  // Infinite Loop
+
   while(1)
   {
 
@@ -129,36 +108,45 @@ main(void)
 //      }
 
 
-
-		for(i = 0; i < 10000000; i++)
+		i = 0;
+		*pressed = 0;
+		wait = true;
+		
+		while(wait)
 		{
-			
 			read_buttons(pressed);
 			if( buttonToBePressed == *pressed)
 			{
+				wait = false;
 				correct = true;
-				i=10000000;
 			}
-			else if ( (~buttonToBePressed & *pressed) != 0 )
+			else if ( ((~buttonToBePressed & *pressed) != 0 ) || i > 1000000 )
 			{
-				i=10000000;
+				wait = false;
 				correct = false;		
 			}
+			i++;
 		}
+		
 		if(correct)
 		{
-			buttonToBePressed = random_generate();
-			printf("correct");
+			score++;
+			printf("correct\n");
 		}
 		else
 		{
-			printf("wrong");
-			buttonToBePressed = random_generate();
+			printf("wrong\n");
+			endGame(push_ps2, score);
 		}
-		while(initState);
-		*pressed = 0;
 		
-		petTheDog(500E6);
+		while(!initState)
+		{
+			read_buttons(pressed);
+		}
+		
+		buttonToBePressed = random_generate();
+		
+		
 
 	}
 }

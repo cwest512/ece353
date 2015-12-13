@@ -24,10 +24,11 @@ uint32_t leftcounter = 0;
 uint32_t rightcounter = 0;
 uint32_t ps2counter = 0;
 uint32_t x_data, y_data;
-volatile bool initState = true;
+volatile bool initState = false;
 
 void read_buttons(uint16_t *pressed)
 {		
+		initState = true;
 		if(AlertSysTick)
 		{
 			data = GPIOF->DATA;
@@ -41,12 +42,13 @@ void read_buttons(uint16_t *pressed)
 			{
 				*pressed |= BTN_UP;
 				upcounter = 0;
-				initState = false;
+				
 			}
+			initState = false;
 		}
 		else {
 			upcounter = 0;
-			initState = true;
+			initState &= true;
 		}
 		
 		if( (data & DIR_BTN_DOWN) == 0)
@@ -56,11 +58,12 @@ void read_buttons(uint16_t *pressed)
 			{
 				*pressed |= BTN_DOWN;
 				downcounter = 0;
-				initState = false;
+				
 			}
+			initState = false;
 		}
 		else {
-			initState = true;
+			initState &= true;
 			downcounter = 0;
 		}
 		
@@ -71,11 +74,12 @@ void read_buttons(uint16_t *pressed)
 			{
 				*pressed |= BTN_LEFT;
 				leftcounter = 0;
-				initState = false;
+				
 			}
+			initState = false;
 		}
 		else {
-			initState = true;
+			initState &= true;
 			leftcounter = 0;
 		}
 		
@@ -86,11 +90,12 @@ void read_buttons(uint16_t *pressed)
 			{
 				*pressed |= BTN_RIGHT;
 				rightcounter = 0;
-				initState = false;
+				
 			}
+			initState = false;
 		}
 		else {
-			initState = true;
+			initState &= true;
 			rightcounter = 0;
 		}
 		
@@ -101,11 +106,12 @@ void read_buttons(uint16_t *pressed)
 			{
 				*pressed |= BTN_PS2;
 				ps2counter = 0;
-				initState = false;
+				
 			}
+			initState = false;
 		}
 		else {
-			initState = true;
+			initState &= true;
 			ps2counter = 0;
 		}
 		AlertSysTick = false;
@@ -113,31 +119,36 @@ void read_buttons(uint16_t *pressed)
 		{
 				x_data = getADCValue(PS2_ADC_BASE,PS2_X_ADC_CHANNEL);
 				y_data = getADCValue(PS2_ADC_BASE,PS2_Y_ADC_CHANNEL);
-				printf("X Dir value : 0x%03x        Y Dir value : 0x%03x\r",x_data, y_data);
-				if(y_data > 0xc00)
+				//printf("X Dir value : 0x%03x        Y Dir value : 0x%03x\r",x_data, y_data);
+				if(y_data > 0xa00)
 				{
 					initState = false;
 					*pressed |= PS2_UP;
 				}
-				if(y_data < 0x400)
+				if(y_data < 0x500)
 				{
 					initState = false;
 					*pressed |= PS2_DOWN;
 				}
-				if(x_data > 0xc00)
+				if(x_data > 0xa00)
 				{
 					initState = false;
 					*pressed |= PS2_LEFT;
 				}
-				if(x_data < 0x400)
+				if(x_data < 0x500)
 				{
 					initState = false;
 					*pressed |= PS2_RIGHT;
 				}
-				if(x_data < 0xa00 && x_data > 0x900 && y_data < 0xa00 && y_data > 0x900)
-					initState = true;
+				if(!(x_data < 0x900 && x_data > 0x700 && y_data < 0x900 && y_data > 0x700))
+					initState = false;
+				else
+					initState &= true;
+					
 				updateXY = false;
 		}
+		else
+			initState = false;
 //			  memset(input,0,80);
 //				printf("\n\rEnter a string: ");
 //				scanf("%79[^\n]", input);
@@ -198,4 +209,28 @@ int random_generate(void)
 	}
 }
 
-
+void endGame(uint8_t image[], uint8_t score)
+{
+	 char c = (char) score;
+	dogs102_clear();
+	if(true)
+	{
+		dogs102_write_char_10pts(1, 'Y', 1);
+		dogs102_write_char_10pts(1, 'o', 2);
+		dogs102_write_char_10pts(1, 'u', 3);
+		dogs102_write_char_10pts(1, ' ', 4);
+		dogs102_write_char_10pts(1, 'W', 5);
+		dogs102_write_char_10pts(1, 'i', 6);
+		dogs102_write_char_10pts(1, 'n', 7);
+		dogs102_write_char_10pts(1, '!', 8);
+		dogs102_write_char_10pts(2, 'S', 1);
+		dogs102_write_char_10pts(2, 'c', 2);
+		dogs102_write_char_10pts(2, 'o', 3);
+		dogs102_write_char_10pts(2, 'r', 4);
+		dogs102_write_char_10pts(2, 'e', 5);
+		dogs102_write_char_10pts(2, ':', 6);
+		dogs102_write_char_10pts(2, ' ', 7);
+		dogs102_write_char_10pts(2, c, 8);
+	}
+	while(true);
+}

@@ -32,3 +32,4 @@ extern volatile bool initState;
 
 void read_buttons(uint16_t *pressed);
 int random_generate(void);
+void endGame(uint8_t image[], uint8_t score);

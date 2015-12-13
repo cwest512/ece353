@@ -150,7 +150,7 @@ void watchdog_config(uint32_t ticks)
 		
 		//Set INTEN to register and enable the watchdog
 		
-		wd_timer->CTL = 0x01;
+	//	wd_timer->CTL = 0x01;
 	
 }
 
