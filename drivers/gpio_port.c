@@ -140,7 +140,7 @@ bool  gpio_enable_port(uint32_t baseAddr)
 			
    // ADD CODE
    // Wait for the PRGPIO to indicate the port is ready
-			while( !(SYSCTL->PRGPIO & pr_mask) )
+			while( !(SYSCTL->PRGPIO & pr_mask) ) {}
 				
    // If PortD set the LOCK and CR registers
    if(baseAddr == GPIOD_BASE )
@@ -471,17 +471,16 @@ bool  gpio_config_uart(uint32_t baseAddr)
 	return true;
 }
 
-bool gpioD_enable_interrupt(void)
+void gpioD_enable_interrupt(void)
 {
 	GPIOA_Type *gpioPort;	
 	gpio_enable_port(GPIOD_BASE);
 	
 	// Type Cast the base address to a GPIOA_Type pointer
 	gpioPort = (GPIOA_Type *)GPIOD_BASE;
-	
-	//GPIO_PORTD_LOCK_R = 0x4C4F434B ;
+
 	gpioPort->IM = 0x00;
-  //GPIO_PORTD_CR_R = 0xFF;
+
 	//Clear Interrupt Mask
 	
 	
@@ -492,13 +491,11 @@ bool gpioD_enable_interrupt(void)
 	//Set Interrupt as falling edge
 	gpio_config_falling_edge_irq(GPIOD_BASE, PD7);
 
+	gpioPort->ICR = 0x80;
+	gpioPort->IM = 0x80;
 	
 	// Write to Interrupt Controller
 	 NVIC_EnableIRQ(GPIOD_IRQn);
-	// Unmask Interrupt Mask
-	//GPIO_PORTD_LOCK_R = 0x4C4F434B ;
-	gpioPort->ICR = 0x80;
-	gpioPort->IM = 0x80;
-  //GPIO_PORTD_CR_R = 0xFF;
+
 	
 }

@@ -156,6 +156,6 @@ bool gpio_config_falling_edge_irq(uint32_t gpioBase, uint8_t pins);
 
 bool  gpio_config_uart(uint32_t baseAddr);
 
-bool gpioD_enable_interrupt(void);
+void gpioD_enable_interrupt(void);
 
 #endif

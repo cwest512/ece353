@@ -235,6 +235,7 @@ static __INLINE void wireless_rx_data_payload( uint32_t *data)
 	ptr[2] = rx_data[2];
 	ptr[1] = rx_data[3];
 	ptr[0] = rx_data[4];
+	//printf("Data_arr: %d %d %d %d %d\n",ptr[0],ptr[1],ptr[2],ptr[3],ptr[4]);
 	wireless_CSN_high();
 }
 
@@ -681,7 +682,7 @@ bool wireless_configure_device(
     wireless_reg_write(NRF24L01_EN_AA_R, NRF24L01_ENAA_P0 | NRF24L01_ENAA_P1);
 
     // Enable the Radio in RX mode
-    wireless_reg_write(NRF24L01_CONFIG_R,NRF24L01_CONFIG_PWR_UP | NRF24L01_CONFIG_EN_CRC | NRF24L01_CONFIG_PRIM_RX_PRX | 0x20 | 0x10 );
+    wireless_reg_write(NRF24L01_CONFIG_R,(NRF24L01_CONFIG_PWR_UP | NRF24L01_CONFIG_EN_CRC | NRF24L01_CONFIG_PRIM_RX_PRX | 0x20 | 0x10) & NRF24L01_CONFIG_MASK_RX_DR_N); 
       
     wireless_CE_high();
     return true;

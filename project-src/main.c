@@ -21,7 +21,7 @@
 #include "lcd.h"
 #include "gamelogic.h"
 
-#define TX_MODE	true
+#define TX_MODE	false
 #define BTN_UP 0x1
 #define BTN_DOWN 0x2
 #define BTN_LEFT 0x4
@@ -38,8 +38,8 @@
  * Global Variables
  *****************************************************************************/
 // ADD CODE
-uint8_t myID[]      = { '3', '5', '3', '1', '3'};
-uint8_t remoteID[]  = { '3', '5', '3', '0', '4'};
+uint8_t myID[]      = { '3', '5', '3', '6', '5'};
+uint8_t remoteID[]  = { '3', '5', '3', '6', '4'};
 
 
 //*****************************************************************************
@@ -58,9 +58,12 @@ void initializeBoard(void)
 	watchdog_config(500E6);
 	SysTick_Config(25000);
 	srand(5);
-	gpioD_enable_interrupt();
+	
 	rfInit();
+	gpioD_enable_interrupt();
 	wireless_configure_device(myID, remoteID );
+	
+	
 	lcd_init();	
 	
 	
@@ -81,7 +84,7 @@ main(void)
 	bool wait;
   int counter;
 	int score = 0;
-	int j;
+	int j = 0;
 	uint8_t toRead[80];
 	uint16_t *pressed = (uint16_t *) malloc(sizeof(uint16_t));
 
@@ -115,7 +118,16 @@ main(void)
 	a_timer->CTL |= TIMER_CTL_TAEN;
 	one_timer->CTL |= TIMER_CTL_TAEN;
 	
-	
+//	while(1)
+//	{
+//		if(readIn)
+//		{
+//		status = wireless_get_32(false, &recived);
+//        if(status == NRF24L01_RX_SUCCESS)
+//          printf("Received: %d\n\r", recived);
+//				readIn = false;
+//			}
+//	}
   while(1)
   {
 
@@ -198,14 +210,28 @@ main(void)
         if(status == NRF24L01_RX_SUCCESS)
         {
             printf("Received: %d\n\r", recived);
-						//petTheDog(500E6);						
+						recievedPacket++;					
         }
 				else
 					droppedPacket++;
 				readIn = false;
 			}
-			else
-				status = wireless_send_32(false, false, '1');
+		if(notReadIn)
+		{
+			status = wireless_send_32(false, false, score);
+			printf("sending..\n");
+			notReadIn = false;
+		}
+			
+		notReadIn = true;
+			
+		if(AlertFiveSec)
+		{
+			AlertFiveSec = false;
+			
+			printf("Number of packets dropped: %d\nNumber of packets sent: %d\n",droppedPacket, sentPacket);
+			printf("Number of packets recieved: %d\n", recievedPacket);
+		}
 	}
 	
 	}

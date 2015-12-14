@@ -13,6 +13,7 @@ volatile bool updateXY;
 volatile uint32_t ps2_x_data, ps2_y_data;
 ADC0_Type* myADC = (ADC0_Type *)PS2_ADC_BASE;
 volatile bool readIn = true;
+volatile bool notReadIn = false;
 
 //*****************************************************************************
 // Rx Portion of the UART ISR Handler
@@ -118,6 +119,8 @@ void WDT0_Handler(void)
 
 void GPIOD_Handler(void)
 {
+	
+	notReadIn = false;
 	readIn = true;
 	petTheDog(500E6);
 	GPIOD->ICR = 0x80;
