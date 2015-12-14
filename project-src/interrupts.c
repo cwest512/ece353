@@ -5,14 +5,13 @@
 #include "board_util.h"
 
 volatile bool AlertSysTick;
-volatile bool AlertOneSec;
+volatile bool AlertFiveSec;
 extern PC_Buffer UART0_Rx_Buffer;
 extern PC_Buffer UART0_Tx_Buffer;
 volatile int count = 0;
 volatile bool updateXY;
-volatile bool aiReady = false;
-
-
+volatile uint32_t ps2_x_data, ps2_y_data;
+ADC0_Type* myADC = (ADC0_Type *)PS2_ADC_BASE;
 //*****************************************************************************
 // Rx Portion of the UART ISR Handler
 //*****************************************************************************
@@ -99,14 +98,14 @@ void SysTick_Handler(void)
 	
 }
 void TIMER0A_Handler(void)
-{	
-  updateXY = true;
+{
+	updateXY = true;
 	a_timer->ICR = TIMER_ICR_TATOCINT;
 }
 
 void TIMER1A_Handler(void)
 {	
-  AlertOneSec = true;
+  AlertFiveSec = true;
 	one_timer->ICR = TIMER_ICR_TATOCINT;
 }
 
@@ -122,9 +121,9 @@ void GPIOD_Handler(void)
 
 void ADC0SS1_Handler(void)
 {
-	ADC0_Type* myADC;
-	aiReady = true;
-	myADC = (ADC0_Type *)PS2_ADC_BASE;
-	//Clear interrupt
-	myADC->ISC = 2;
+	
+	ps2_x_data = myADC->SSFIFO1 & 0xfff;
+	ps2_y_data = myADC->SSFIFO1 & 0xfff;
+	
+	myADC->ISC = 0x2;
 }

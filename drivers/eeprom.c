@@ -6,6 +6,7 @@
 #include <time.h>
 #include "eeprom.h"
 #include "board_util.h"
+#include "timers.h"
 
 //*****************************************************************************
 // Used to determine if the EEPROM is busy writing the last transaction to 
@@ -214,26 +215,31 @@ void edit_eeprom(void)
 	int j;
 	uint8_t toRead[80];
 		
-	printf("Modify EEPROM Contents");
+	//Turn off WatchDog Timer
+	wd_timer = (WATCHDOG0_Type *) WATCHDOG0_BASE;
+	wd_timer->CTL = 0x00;
+	
+	printf("\nModify EEPROM Contents");
 	
 	//Student One
 	printf("\nStudent 1: ");
 	
 	for(j = 0; j < 80; j++)
 		eeprom_byte_read(EEPROM_I2C_BASE, j, &toRead[j] );
-		
+	
 	for(j = 0; j < 80; j++)
 		printf("%c", toRead[j]);
 		
-	printf("\n\rStudent 1: ");
+	printf("\n\rEnter a new Student 1: ");
 	memset(input,0,80);
-	scanf("%79[^\n]", input);
+	scanf("%80[^\n]", input);
 	
 	if(!(input[0] == NULL))
 	{
 		for(j = 0; j < 80; j++)
 			eeprom_byte_write(EEPROM_I2C_BASE, j, input[j]);
 	}
+	
 	//Student 2
 	printf("\nStudent 2: ");
 	
@@ -243,9 +249,9 @@ void edit_eeprom(void)
 	for(j = 0; j < 80; j++)
 		printf("%c", toRead[j]);
 		
-	printf("\n\rStudent 2: ");
+	printf("\n\rEnter a new Student 2: ");
 	memset(input,0,80);
-	scanf("%79[^\n]", input);
+	scanf("%80[^\n]", input);
 	
 	if(!(input[0] == NULL))
 	{
@@ -262,9 +268,9 @@ void edit_eeprom(void)
 	for(j = 0; j < 2; j++)
 		printf("%c", toRead[j]);
 		
-	printf("\n\rTeam Number: ");
+	printf("\n\rEnter a new Team Number: ");
 	memset(input,0,2);
-	scanf("%79[^\n]", input);
+	scanf("%2[^\n]", input);
 	
 	if(!(input[0] == NULL))
 	{

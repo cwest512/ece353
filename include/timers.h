@@ -8,6 +8,7 @@
 
 extern volatile TIMER0_Type *a_timer;
 extern volatile TIMER0_Type *one_timer;
+extern volatile WATCHDOG0_Type *wd_timer;
 
 //*****************************************************************************
 // Configure a 16/32 bit general purpose timer to wait a specified number

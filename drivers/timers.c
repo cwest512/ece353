@@ -99,7 +99,7 @@ void timer0_configA(uint16_t ticks)
 		//Cast address to TIMER0_Type pointer
 		a_timer = (TIMER0_Type *) TIMER0_BASE;
 		//Disable timerA
-		a_timer->CTL &= ~(TIMER_CTL_TAEN);
+		a_timer->CTL = 0;
 		//Set timer as 32 bit
 		a_timer->CFG = TIMER_CFG_32_BIT_TIMER;
 		//Set timer as a count-down and periodic
@@ -110,6 +110,7 @@ void timer0_configA(uint16_t ticks)
 		a_timer->ICR |= TIMER_ICR_TATOCINT;	
 		//Enable interrupts by setting the mask and registering with the NVIC
 		a_timer->IMR |= TIMER_IMR_TATOIM;
+		a_timer->CTL |= TIMER_CTL_TAOTE;
 		NVIC_EnableIRQ(TIMER0A_IRQn);
 }
 
@@ -150,7 +151,7 @@ void watchdog_config(uint32_t ticks)
 		
 		//Set INTEN to register and enable the watchdog
 		
-	//	wd_timer->CTL = 0x01;
+		wd_timer->CTL = 0x01;
 	
 }
 
@@ -158,6 +159,6 @@ void petTheDog(uint32_t ticks)
 {
 	wd_timer = (WATCHDOG0_Type *) WATCHDOG0_BASE;
 
-		wd_timer->LOAD = ticks;
+	wd_timer->LOAD = ticks;
 }
 

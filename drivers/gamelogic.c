@@ -23,7 +23,7 @@ uint32_t downcounter = 0;
 uint32_t leftcounter = 0;
 uint32_t rightcounter = 0;
 uint32_t ps2counter = 0;
-uint32_t x_data, y_data;
+
 volatile bool initState = false;
 
 void read_buttons(uint16_t *pressed)
@@ -116,45 +116,39 @@ void read_buttons(uint16_t *pressed)
 			ps2counter = 0;
 		}
 		AlertSysTick = false;
-	
-		
-		
-		if(updateXY)
+
+		if(updateXY)				
 		{
-			//while(!aiReady) {};
-			//	aiReady = false;
-				x_data = getADCValue(PS2_ADC_BASE,PS2_X_ADC_CHANNEL);
-				y_data = getADCValue(PS2_ADC_BASE,PS2_Y_ADC_CHANNEL);
 				//printf("X Dir value : 0x%03x        Y Dir value : 0x%03x\r",x_data, y_data);
-				if(y_data > 0xa00)
+				if(ps2_y_data > 0xa00)
 				{
 					initState = false;
 					*pressed |= PS2_UP;
 				}
-				if(y_data < 0x500)
+				if(ps2_y_data < 0x500)
 				{
 					initState = false;
 					*pressed |= PS2_DOWN;
 				}
-				if(x_data > 0xa00)
+				if(ps2_x_data > 0xa00)
 				{
 					initState = false;
 					*pressed |= PS2_LEFT;
 				}
-				if(x_data < 0x500)
+				if(ps2_x_data < 0x500)
 				{
 					initState = false;
 					*pressed |= PS2_RIGHT;
 				}
-				if(!(x_data < 0x900 && x_data > 0x700 && y_data < 0x900 && y_data > 0x700))
+				if(!(ps2_x_data < 0x900 && ps2_x_data > 0x700 && ps2_y_data < 0x900 && ps2_y_data > 0x700))
 					initState = false;
 				else
 					initState &= true;
-					
 				updateXY = false;
-		}
+			}
 		else
-			initState = false;    
+			initState = false;
+    
 
 }
 

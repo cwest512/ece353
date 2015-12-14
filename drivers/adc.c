@@ -48,11 +48,10 @@ bool initializeADC(  uint32_t adc_base )
   // Type Cast adc_base and set it to myADC
   myADC = (ADC0_Type *)adc_base;
   
-  // ADD CODE
   // disable sample sequencer #1 by writing a 0 to the 
   // corresponding ASENn bit in the ADCACTSS register 
-		
-		myADC->IM = 0;
+	
+	myADC->IM = 0;
 		
 	myADC->ACTSS &= ~ADC_ACTSS_ASEN1;
 
@@ -61,48 +60,54 @@ bool initializeADC(  uint32_t adc_base )
   // for sample sequencer #1.
 		
 	myADC->EMUX  &= ~ADC_EMUX_EM1_M;
-	myADC->EMUX  |= ADC_EMUX_EM1_PROCESSOR;
-
-  // ADD CODE
+	myADC->EMUX  |= ADC_EMUX_EM1_TIMER;
+		
+	myADC->SSMUX1 = 0x01;
+	
   // Set IE0 and END0 in SSCTL3
   myADC->SSCTL1 = ADC_SSCTL1_IE1 | ADC_SSCTL1_END1;
-	NVIC_EnableIRQ(ADC0SS1_IRQn);
-		myADC->IM = 2;
 	
-		
+	
+	myADC->IM = 0x2;
+	
+	NVIC_EnableIRQ(ADC0SS1_IRQn);
+	
+	myADC->ACTSS |= ADC_ACTSS_ASEN1;
+	myADC->PSSI 	= ADC_PSSI_SS1;
+	
   return true;
 }
 
 /******************************************************************************
  * Reads SSMUX3 for the given ADC.  Busy waits until completion
  *****************************************************************************/
-uint32_t getADCValue( uint32_t adc_base, uint8_t channel)
-{
-  ADC0_Type  *myADC;
-  uint32_t result;
-  
-  if( adc_base == 0)
-  {
-    return false;
-  }
-  
-  myADC = (ADC0_Type *)adc_base;
-  
-  myADC->SSMUX1 = channel;          // Set the Channel
-  
-  myADC->ACTSS |= ADC_ACTSS_ASEN1;  // Enable SS3
-  
-  myADC->PSSI =   ADC_PSSI_SS1;     // Start SS3
-  
-  while( (myADC->RIS & ADC_RIS_INR1)  == 0)
-  {
-    // wait
-  }
-  
-  result = myADC->SSFIFO1 & 0xFFF;    // Read 12-bit data
-  
-  myADC->ISC  = ADC_ISC_IN1;          // Ack the conversion
-  
-  return result;
-}
+//uint32_t getADCValue( uint32_t adc_base, uint8_t channel)
+//{
+//  ADC0_Type  *myADC;
+//  uint32_t result;
+//  
+//  if( adc_base == 0)
+//  {
+//    return false;
+//  }
+//  
+//  myADC = (ADC0_Type *)adc_base;
+//  
+//  myADC->SSMUX1 = channel;          // Set the Channel
+//  
+//  myADC->ACTSS |= ADC_ACTSS_ASEN1;  // Enable SS3
+//  
+//  myADC->PSSI =   ADC_PSSI_SS1;     // Start SS3
+//  
+//  while( (myADC->RIS & ADC_RIS_INR1)  == 0)
+//  {
+//    // wait
+//  }
+//  
+//  result = myADC->SSFIFO3 & 0xFFF;    // Read 12-bit data
+//  
+//  myADC->ISC  = ADC_ISC_IN1;          // Ack the conversion
+//  
+//  return result;
+//}
 

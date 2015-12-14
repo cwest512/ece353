@@ -71,30 +71,43 @@ main(void)
 {	
 	wireless_com_status_t status;
 	int buttonToBePressed;
+	uint32_t recived;
+	uint32_t droppedPacket = 0;
 	bool correct = true;
 	bool wait;
   int counter;
 	int score = 0;
+	int j;
+	uint8_t toRead[80];
 	uint16_t *pressed = (uint16_t *) malloc(sizeof(uint16_t));
 
 	initializeBoard();
   buttonToBePressed = random_generate();
 	
-//	for(i = 0; i < 80; i++)
-//		eeprom_byte_write(EEPROM_I2C_BASE, i, firstName[i]);
-//	for(i=0;i<80;i++)
-//		eeprom_byte_read(EEPROM_I2C_BASE, i, &toread[i] );
-//		
-//	for(i = 0; i < 80; i++)
-//		eeprom_byte_write(EEPROM_I2C_BASE, i+80, secondName[i]);
-//	for(i=0;i<80;i++)
-//		eeprom_byte_read(EEPROM_I2C_BASE, i+80, &secondtoread[i] );
-//	
+	printf("\nStudent 1: ");
+	
+	for(j = 0; j < 80; j++)
+		eeprom_byte_read(EEPROM_I2C_BASE, j, &toRead[j] );
+		
+	for(j = 0; j < 80; j++)
+		printf("%c", toRead[j]);
+	
+	printf("\nStudent 2: ");
+	
+	for(j = 0; j < 80; j++)
+		eeprom_byte_read(EEPROM_I2C_BASE, j+80, &toRead[j] );
+	
+	for(j = 0; j < 80; j++)
+		printf("%c", toRead[j]);
+		
+	printf("\nTeam Number: ");
+	
+	for(j = 0; j < 2; j++)
+		eeprom_byte_read(EEPROM_I2C_BASE, j+160, &toRead[j] );
 
-//	printf("\nStudent 2: ");
-//	for(i=0;i<80;i++)
-//		printf("%c", secondName[i]);
-
+	for(j = 0; j < 2; j++)
+		printf("%c", toRead[j]);
+	
 	a_timer->CTL |= TIMER_CTL_TAEN;
 	one_timer->CTL |= TIMER_CTL_TAEN;
 	
@@ -102,27 +115,8 @@ main(void)
   while(1)
   {
 
-//      if(TX_MODE && AlertOneSec)
-//      {
-//          printf("Sending: %d\n\r",i);
-//          status = wireless_send_32(false, false, '1020');
-//          AlertOneSec = false;
-//          i++;
-//				AlertOneSec = false;
-//      }
-//      else if (!TX_MODE)
-//      {
-//        status =  wireless_get_32(false, &data);
-//        if(status == NRF24L01_RX_SUCCESS)
-//        {
-//            printf("Received: %d\n\r", data);
-//						
-//        }
-//        
-//        AlertOneSec = false;
- //     }
-
-
+	if(TX_MODE)
+	{
 		counter = 0;
 		*pressed = 0;
 		wait = true;
@@ -141,6 +135,19 @@ main(void)
 				correct = false;		
 			}
 			counter++;
+			if(AlertFiveSec)
+			{
+				status = wireless_send_32(false, false, score);
+				AlertFiveSec = false;
+			}
+			status = wireless_get_32(false, &recived);
+        if(status == NRF24L01_RX_SUCCESS)
+        {
+            printf("Received: %d\n\r", recived);
+						petTheDog(500E6);						
+        }
+				else
+					droppedPacket++;
 		}
 		
 		if(correct)
@@ -158,10 +165,19 @@ main(void)
 		{
 			read_buttons(pressed);
 		}
-		
 		buttonToBePressed = random_generate();
-		
-		
-
+	}
+	else
+	{
+		status = wireless_get_32(false, &recived);
+    if(status == NRF24L01_RX_SUCCESS)
+      {
+        printf("Received: %d\n\r", recived);
+				petTheDog(500E6);						
+      }
+			else
+				droppedPacket++;
+	}
+	
 	}
 }
