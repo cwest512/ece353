@@ -280,8 +280,8 @@ void printScore(int score)
 		dogs102_write_char_10pts(1, 'r', 4);
 		dogs102_write_char_10pts(1, 'e', 5);
 		dogs102_write_char_10pts(1, ':', 6);
-		dogs102_write_char_10pts(1, firstC, 8);
-		dogs102_write_char_10pts(1, secondC, 9);
+		dogs102_write_char_10pts(1, secondC, 8);
+		dogs102_write_char_10pts(1, firstC, 9);
 }
 
 void high_scores(int score)
