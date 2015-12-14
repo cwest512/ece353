@@ -12,6 +12,8 @@ volatile int count = 0;
 volatile bool updateXY;
 volatile uint32_t ps2_x_data, ps2_y_data;
 ADC0_Type* myADC = (ADC0_Type *)PS2_ADC_BASE;
+volatile bool readIn = true;
+
 //*****************************************************************************
 // Rx Portion of the UART ISR Handler
 //*****************************************************************************
@@ -116,7 +118,11 @@ void WDT0_Handler(void)
 
 void GPIOD_Handler(void)
 {  	
-		while(true){printf("Handler D has been triggered\n");}
+	if((GPIOD->RIS & ~0x80) == 0)
+		{
+		readIn = true;
+	}
+	GPIOD->ICR = 0;
 }
 
 void ADC0SS1_Handler(void)

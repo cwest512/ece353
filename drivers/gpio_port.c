@@ -471,79 +471,32 @@ bool  gpio_config_uart(uint32_t baseAddr)
 	return true;
 }
 
-bool gpio_enable_interrupt(uint32_t baseAddr, bool activeHigh)
+bool gpioD_enable_interrupt()
 {
-	GPIOA_Type *gpioPort;
-	uint32_t 		irqn;
+	GPIOA_Type *gpioPort;	
+	gpio_enable_port(GPIOD_BASE);
 	
-	// Verify that the base address is a valid GPIO base address
-  // using the verifyBaseAddr function provided above
-	if(!verifyBaseAddr(baseAddr))
-	{
-		return false;
-	}
 	// Type Cast the base address to a GPIOA_Type pointer
-	gpioPort = (GPIOA_Type *)baseAddr;
-	
-	switch( baseAddr )
-   {
-     case GPIOA_BASE:
-     {
-      
-			 irqn = GPIOA_IRQn;
-			 break;
-     }
-     case GPIOB_BASE:
-     {
-			 irqn = GPIOB_IRQn;
-       break;
-     }
-     case GPIOC_BASE:
-     {
-       
-				irqn = GPIOC_IRQn;
-				break;
-     }
-     case GPIOD_BASE:
-     {
-       
-				irqn = GPIOD_IRQn;
-				break;
-     }
-     case GPIOE_BASE:
-     {
-       
-				irqn = GPIOE_IRQn;
-				break;
-     }
-     case GPIOF_BASE:
-     {
-       
-				irqn = GPIOF_IRQn;
-				break;
-     }
-     default:
-     {
-       return false;
-     }
-   }
 	gpioPort = (GPIOA_Type *)GPIOD_BASE;
+	
 	//Clear Interrupt Mask
 	gpioPort->IM = 0x00;
-	//Set Interrupt as edge sensitive
-	gpioPort->IS = 0;
-	// Clear "Both Edges" register
-	//gpioPort->IBE = 0;
-	// Set edge event register
-	gpioPort->IEV = 0;
-	//Clear interrupt
-	gpioPort->ICR = 0x01;
-	 //Clear RIS
-	 gpioPort->RIS = 0;
-	// Write to Interrupt Controller
-	//NVIC_EnableIRQ(irqn);
-	 
-	// Unmask Interrupt Mask
-	 gpioPort->IM = 0x01;
 	
+	gpio_config_digital_enable(GPIOD_BASE, PD7);
+	
+	gpio_config_enable_input(GPIOD_BASE, PD7);
+	
+	gpio_config_alternate_function(GPIOD_BASE, PD7);
+	
+	//Set Interrupt as falling edge
+	gpio_config_falling_edge_irq(GPIOD_BASE, PD7);
+
+	
+	 //Clear RIS
+	 //gpioPort->RIS = 0;
+	// Write to Interrupt Controller
+	 NVIC_EnableIRQ(GPIOD_IRQn);
+	// Unmask Interrupt Mask
+	 gpioPort->IM = 0xff;
+	 gpioPort->ICR = 0x01;
 }

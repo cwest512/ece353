@@ -151,8 +151,8 @@ void rfInit(void)
 	gpio_config_alternate_function(    RF_IRQ_GPIO_BASE, RF_IRQ_PIN);
 	gpio_config_port_control(     RF_IRQ_GPIO_BASE, GPIO_PCTL_PD7_M);
 	
-//	gpio_enable_interrupt(RF_GPIO_BASE,false);
-
+	//gpio_enable_interrupt(RF_GPIO_BASE,false);
+	//NVIC_EnableIRQ(GPIOD_IRQn);
   initialize_spi( RF_SPI_BASE, 0, 10);
   RF_CE_PERIH->DATA |= (1 << 1);
 }
@@ -163,7 +163,7 @@ void test_portD_interrupt(void)
 	
 	gpio_config_digital_enable(RF_IRQ_GPIO_BASE, RF_IRQ_PIN);
 	gpio_config_enable_input(RF_IRQ_GPIO_BASE, RF_IRQ_PIN);
-	gpio_enable_interrupt(RF_IRQ_GPIO_BASE,false);
+	//gpio_enable_interrupt(RF_IRQ_GPIO_BASE,false);
 }
 	
 
