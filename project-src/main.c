@@ -53,6 +53,7 @@ void initializeBoard(void)
   initialize_uart();
 	i2cInit();
 	timer0_configA(25000);
+	timer2_configA(50E6);
 	timer1_configA(250E6);
 //	watchdog_config(500E6);
 	SysTick_Config(25000);
@@ -115,6 +116,7 @@ main(void)
 	printf("\n");
 	
 	a_timer->CTL |= TIMER_CTL_TAEN;
+	two_timer->CTL |= TIMER_CTL_TAEN;
 	one_timer->CTL |= TIMER_CTL_TAEN;
 
 TX_MODE = mode_selector();
@@ -187,7 +189,7 @@ else
 			status = wireless_send_32(false, false, score);
 			sentPacket++;
 			
-			if(score == 99)
+			if(score == 50)
 			 endGame(true, score);
 		}
 		else
@@ -221,15 +223,27 @@ else
 				read_buttons(pressed);
 				if(*pressed == BTN_UP)
 				{
-						speed += 1000;
+						speed += 1;
+					if(speed > 10000000)
+						speed = 10000;
+					if(sendSpeed)
+					{
 						printf("%d\n", speed);
 						status = wireless_send_32(false, false, speed);
+						sendSpeed = false;
+					}
 				}
 				else if (*pressed == BTN_DOWN)
 				{
-						speed -= 1000;
+						speed -= 1;
+					if(speed < 1)
+						speed = 10000;
+					if(sendSpeed)
+					{
 						printf("%d\n", speed);
 						status = wireless_send_32(false, false, speed);
+						sendSpeed = false;
+					}
 				}
 				*pressed = 0;
 			}

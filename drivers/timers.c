@@ -2,6 +2,7 @@
 
 volatile TIMER0_Type *a_timer;
 volatile TIMER0_Type *one_timer;
+volatile TIMER0_Type *two_timer;
 volatile WATCHDOG0_Type *wd_timer;
 
 //*****************************************************************************
@@ -135,6 +136,29 @@ void timer1_configA(uint32_t ticks)
 		//Enable interrupts by setting the mask and registering with the NVIC
 		one_timer->IMR |= TIMER_IMR_TATOIM;
 		NVIC_EnableIRQ(TIMER1A_IRQn);
+}
+
+void timer2_configA(uint32_t ticks)
+{
+		// Turn on the clock for the timer
+		SYSCTL->RCGCTIMER |= SYSCTL_RCGCTIMER_R2;
+		// Wait for the timer to turn on
+		while( (SYSCTL->PRTIMER & SYSCTL_PRTIMER_R2) == 0) {};
+		//Cast address to TIMER0_Type pointer
+		two_timer = (TIMER0_Type *) TIMER2_BASE;
+		//Disable timerA
+		two_timer->CTL &= ~(TIMER_CTL_TAEN);
+		//Set timer as 32 bit
+		two_timer->CFG = TIMER_CFG_32_BIT_TIMER;
+		//Set timer as a count-down and periodic
+		two_timer->TAMR = TIMER_TAMR_TAMR_PERIOD;
+		//Set the number of clock cycles (ticks) to count down from
+		two_timer->TAILR = ticks;
+		//Clear TimerA interrupt
+		two_timer->ICR |= TIMER_ICR_TATOCINT;	
+		//Enable interrupts by setting the mask and registering with the NVIC
+		two_timer->IMR |= TIMER_IMR_TATOIM;
+		NVIC_EnableIRQ(TIMER2A_IRQn);
 }
 
 void watchdog_config(uint32_t ticks)

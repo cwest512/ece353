@@ -10,10 +10,10 @@ extern PC_Buffer UART0_Rx_Buffer;
 extern PC_Buffer UART0_Tx_Buffer;
 volatile int count = 0;
 volatile bool updateXY;
+volatile bool sendSpeed;
 volatile uint32_t ps2_x_data, ps2_y_data;
 ADC0_Type* myADC = (ADC0_Type *)PS2_ADC_BASE;
 volatile bool readIn = true;
-volatile bool notReadIn = false;
 
 //*****************************************************************************
 // Rx Portion of the UART ISR Handler
@@ -131,4 +131,10 @@ void ADC0SS1_Handler(void)
 	ps2_y_data = myADC->SSFIFO1 & 0xfff;
 	
 	myADC->ISC = 0x2;
+}
+
+void TIMER2A_Handler(void)
+{
+	sendSpeed = true;
+	two_timer->ICR = TIMER_ICR_TATOCINT;
 }

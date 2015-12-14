@@ -8,6 +8,7 @@
 
 extern volatile TIMER0_Type *a_timer;
 extern volatile TIMER0_Type *one_timer;
+extern volatile TIMER0_Type *two_timer;
 extern volatile WATCHDOG0_Type *wd_timer;
 
 //*****************************************************************************
@@ -19,5 +20,6 @@ void timer0_configA(uint16_t ticks);
 void timer1_configA(uint32_t ticks);
 void watchdog_config(uint32_t ticks);
 void petTheDog(uint32_t ticks);
+void timer2_configA(uint32_t ticks);
 
 #endif
