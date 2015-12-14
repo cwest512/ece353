@@ -35,3 +35,7 @@ int random_generate(void);
 void endGame(bool win, int score);
 void high_scores(int score);
 void printHighScores(void);
+bool mode_selector(void);
+void instructionsRecv(void);
+void instructionsGame(void);
+void time_wait(void);

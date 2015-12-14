@@ -491,9 +491,8 @@ void gpioD_enable_interrupt(void)
 	//Set Interrupt as falling edge
 	gpio_config_falling_edge_irq(GPIOD_BASE, PD7);
 
-	gpioPort->ICR = 0x80;
 	gpioPort->IM = 0x80;
-	
+	gpioPort->ICR = 0x80;
 	// Write to Interrupt Controller
 	 NVIC_EnableIRQ(GPIOD_IRQn);
 

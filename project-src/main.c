@@ -21,7 +21,6 @@
 #include "lcd.h"
 #include "gamelogic.h"
 
-#define TX_MODE	false
 #define BTN_UP 0x1
 #define BTN_DOWN 0x2
 #define BTN_LEFT 0x4
@@ -55,14 +54,10 @@ void initializeBoard(void)
 	i2cInit();
 	timer0_configA(25000);
 	timer1_configA(250E6);
-	watchdog_config(500E6);
+//	watchdog_config(500E6);
 	SysTick_Config(25000);
 	srand(5);
-	
-	rfInit();
-	gpioD_enable_interrupt();
-	wireless_configure_device(myID, remoteID );
-	
+	rfInit();	
 	
 	lcd_init();	
 	
@@ -80,7 +75,9 @@ main(void)
 	uint32_t droppedPacket = 0;
 	uint32_t sentPacket = 0;
 	uint32_t recievedPacket = 0;
+	uint32_t speed = 500000;
 	bool correct = true;
+	bool TX_MODE;
 	bool wait;
   int counter;
 	int score = 0;
@@ -89,7 +86,7 @@ main(void)
 	uint16_t *pressed = (uint16_t *) malloc(sizeof(uint16_t));
 
 	initializeBoard();
-  buttonToBePressed = random_generate();
+  
 	
 	printf("\nStudent 1: ");
 	
@@ -115,24 +112,34 @@ main(void)
 	for(j = 0; j < 2; j++)
 		printf("%c", toRead[j]);
 	
+	printf("\n");
+	
 	a_timer->CTL |= TIMER_CTL_TAEN;
 	one_timer->CTL |= TIMER_CTL_TAEN;
-	
-//	while(1)
-//	{
-//		if(readIn)
-//		{
-//		status = wireless_get_32(false, &recived);
-//        if(status == NRF24L01_RX_SUCCESS)
-//          printf("Received: %d\n\r", recived);
-//				readIn = false;
-//			}
-//	}
+
+TX_MODE = mode_selector();
+
+if(TX_MODE)
+{
+	//instructionsGame();
+	buttonToBePressed = random_generate();
+}
+else
+{
+	//instructionsRecv();
+}
+	gpioD_enable_interrupt();
+	wireless_configure_device(myID, remoteID );
   while(1)
   {
 
 	if(TX_MODE)
 	{
+		while(!initState)
+		{
+			read_buttons(pressed);
+		}
+		
 		counter = 0;
 		*pressed = 0;
 		wait = true;
@@ -145,38 +152,26 @@ main(void)
 				wait = false;
 				correct = true;
 			}
-			else if ( ((~buttonToBePressed & *pressed) != 0 ) || counter > 1000000 )
+			else if ( ((~buttonToBePressed & *pressed) != 0 ) || counter > speed )
 			{
 				wait = false;
 				correct = false;		
 			}
 			counter++;
-			petTheDog(500E6);
-			
-			//if(status == NRF24L01_TX_PCK_LOST)
-			//{
-			//	while(true);
-			//}
-				
-//			if(readIn)
-//			{
-//				status = wireless_get_32(false, &recived);
-//        if(status == NRF24L01_RX_SUCCESS)
-//        {
-//            printf("Received: %d\n\r", recived);
-//						recievedPacket++;					
-//        }
-//					
-//				readIn = false;
-//			}
-//			else
-//				status = wireless_send_32(false, false, score);
-//				if(status == NRF24L01_TX_PCK_LOST)
-//					droppedPacket++;
-//				if(status == NRF24L01_TX_SUCCESS)
-//					sentPacket++;
-		}
 		
+		if(readIn)
+			{
+				status = wireless_get_32(false, &recived);
+        if(status == NRF24L01_RX_SUCCESS)
+        {
+            printf("Received: %d\n\r", recived);
+						speed = recived;
+						recievedPacket++;
+					
+        }
+				readIn = false;
+				GPIOD->ICR =0x80;
+			}
 		if(AlertFiveSec)
 		{
 			AlertFiveSec = false;
@@ -184,47 +179,60 @@ main(void)
 			printf("Number of packets dropped: %d\nNumber of packets sent: %d\n",droppedPacket, sentPacket);
 			printf("Number of packets recieved: %d\n", recievedPacket);
 		}
-		
+	}
 		if(correct)
-		{
-			score++;
-			if(score == 50)
+		{		
+			printf("sending..\n");
+			score++;			
+			status = wireless_send_32(false, false, score);
+			sentPacket++;
+			
+			if(score == 99)
 			 endGame(true, score);
 		}
 		else
 		{
+			status = wireless_send_32(false, false, 0);
 			endGame(false, score);
 		}
 		
-		while(!initState)
-		{
-			read_buttons(pressed);
-		}
+		
 		buttonToBePressed = random_generate();
 	}
+
+	
+	
+	
+	//Recieve Mode
 	else
-	{
+	{		
 		if(readIn)
 			{
 				status = wireless_get_32(false, &recived);
         if(status == NRF24L01_RX_SUCCESS)
         {
             printf("Received: %d\n\r", recived);
-						recievedPacket++;					
+						recievedPacket++;
         }
-				else
-					droppedPacket++;
 				readIn = false;
+				GPIOD->ICR =0x80;
 			}
-		if(notReadIn)
-		{
-			status = wireless_send_32(false, false, score);
-			printf("sending..\n");
-			notReadIn = false;
-		}
-			
-		notReadIn = true;
-			
+			else{
+				read_buttons(pressed);
+				if(*pressed == BTN_UP)
+				{
+						speed += 1000;
+						printf("%d\n", speed);
+						status = wireless_send_32(false, false, speed);
+				}
+				else if (*pressed == BTN_DOWN)
+				{
+						speed -= 1000;
+						printf("%d\n", speed);
+						status = wireless_send_32(false, false, speed);
+				}
+				*pressed = 0;
+			}
 		if(AlertFiveSec)
 		{
 			AlertFiveSec = false;
