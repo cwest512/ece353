@@ -39,3 +39,4 @@ bool mode_selector(void);
 void instructionsRecv(void);
 void instructionsGame(void);
 void time_wait(void);
+void printScore(int score);

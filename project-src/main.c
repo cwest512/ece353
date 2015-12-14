@@ -37,8 +37,8 @@
  * Global Variables
  *****************************************************************************/
 // ADD CODE
-uint8_t myID[]      = { '3', '5', '3', '6', '5'};
-uint8_t remoteID[]  = { '3', '5', '3', '6', '4'};
+uint8_t myID[]      = { '3', '5', '3', '6', '4'};
+uint8_t remoteID[]  = { '3', '5', '3', '6', '5'};
 
 
 //*****************************************************************************
@@ -187,7 +187,6 @@ else
 			printf("sending..\n");
 			score++;			
 			status = wireless_send_32(false, false, score);
-			sentPacket++;
 			
 			if(score == 50)
 			 endGame(true, score);
@@ -196,6 +195,15 @@ else
 		{
 			status = wireless_send_32(false, false, 0);
 			endGame(false, score);
+		}
+		
+		if(status == NRF24L01_TX_SUCCESS)
+		{
+			sentPacket++;
+		}
+		else if( status == NRF24L01_TX_PCK_LOST)
+		{
+			droppedPacket++;
 		}
 		
 		
@@ -215,6 +223,24 @@ else
         {
             printf("Received: %d\n\r", recived);
 						recievedPacket++;
+						if(recived != 0)
+						{
+							score = recived;
+							printScore(score);
+						}
+						else
+						{
+							bool win;
+							if(score != 50)
+							{
+								win = false;
+							}
+							else
+							{
+								win = true;
+							}
+							endGame(win,score);	
+						}							
         }
 				readIn = false;
 				GPIOD->ICR =0x80;
@@ -247,6 +273,16 @@ else
 				}
 				*pressed = 0;
 			}
+			
+		if(status == NRF24L01_TX_SUCCESS)
+		{
+			sentPacket++;
+		}
+		else if( status == NRF24L01_TX_PCK_LOST)
+		{
+			droppedPacket++;
+		}
+			
 		if(AlertFiveSec)
 		{
 			AlertFiveSec = false;

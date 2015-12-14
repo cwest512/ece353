@@ -26,6 +26,7 @@ uint32_t ps2counter = 0;
 uint8_t first;
 uint8_t second;
 uint8_t third;
+bool reset = true;
 
 volatile bool initState = false;
 
@@ -256,6 +257,33 @@ void endGame(bool win, int score)
 		
 }
 
+void printScore(int score)
+{
+	char firstC;
+	char secondC;
+	int i;
+	
+	firstC = (score % 10) + 0x30;
+	secondC = (char) (((score / 10))+ 0x30);
+
+	dogs102_clear();
+		dogs102_write_char_10pts(0, 'C', 0);
+		dogs102_write_char_10pts(0, 'u', 1);
+		dogs102_write_char_10pts(0, 'r', 2);
+		dogs102_write_char_10pts(0, 'r', 3);
+		dogs102_write_char_10pts(0, 'e', 4);
+		dogs102_write_char_10pts(0, 'n', 5);
+		dogs102_write_char_10pts(0, 't', 6);
+		dogs102_write_char_10pts(1, 'S', 1);
+		dogs102_write_char_10pts(1, 'c', 2);
+		dogs102_write_char_10pts(1, 'o', 3);
+		dogs102_write_char_10pts(1, 'r', 4);
+		dogs102_write_char_10pts(1, 'e', 5);
+		dogs102_write_char_10pts(1, ':', 6);
+		dogs102_write_char_10pts(1, firstC, 8);
+		dogs102_write_char_10pts(1, secondC, 9);
+}
+
 void high_scores(int score)
 {
 	eeprom_byte_read(EEPROM_I2C_BASE, 162, &first );
@@ -273,7 +301,7 @@ void high_scores(int score)
 		third = second;
 		second = score;
 	}
-	else if ( third < score )
+	else if ( third < score)
 	{
 		third = score;
 	}
