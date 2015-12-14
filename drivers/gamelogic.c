@@ -23,6 +23,9 @@ uint32_t downcounter = 0;
 uint32_t leftcounter = 0;
 uint32_t rightcounter = 0;
 uint32_t ps2counter = 0;
+uint8_t first;
+uint8_t second;
+uint8_t third;
 
 volatile bool initState = false;
 
@@ -204,6 +207,7 @@ void endGame(bool win, int score)
 	char firstC;
 	char secondC;
 	
+	int i;
 	firstC = (score % 10) + 0x30;
 	secondC = (char) (((score / 10))+ 0x30);
 
@@ -246,5 +250,82 @@ void endGame(bool win, int score)
 		dogs102_write_char_10pts(2, secondC, 7);
 		dogs102_write_char_10pts(2, firstC, 8);
 	}
+	
+	for(i = 0; i < 10000000; i++);
+	high_scores(score);
+	printHighScores();
+}
+
+void high_scores(int score)
+{
+	eeprom_byte_read(EEPROM_I2C_BASE, 162, &first );
+	eeprom_byte_read(EEPROM_I2C_BASE, 163, &second );
+	eeprom_byte_read(EEPROM_I2C_BASE, 164, &third );
+	
+	if(first < score)
+	{
+		third = second;
+		second = first;
+		first = score;
+	}
+	else if (second < score)
+	{
+		third = second;
+		second = score;
+	}
+	else if ( third < score )
+	{
+		third = score;
+	}
+		
+	eeprom_byte_write(EEPROM_I2C_BASE, 162, first );
+	eeprom_byte_write(EEPROM_I2C_BASE, 163, second );
+	eeprom_byte_write(EEPROM_I2C_BASE, 164, third );
+}
+
+void printHighScores(void)
+{
+	char firstC;
+	char secondC;
+	
+	firstC = (first % 10) + 0x30;
+	secondC = (char) (((first / 10))+ 0x30);
+	dogs102_clear();
+		dogs102_write_char_10pts(0, 'H', 0);
+		dogs102_write_char_10pts(0, 'i', 1);
+		dogs102_write_char_10pts(0, 'g', 2);
+		dogs102_write_char_10pts(0, 'h', 3);
+		dogs102_write_char_10pts(0, 'S', 4);
+		dogs102_write_char_10pts(0, 'c', 5);
+		dogs102_write_char_10pts(0, 'o', 6);
+		dogs102_write_char_10pts(0, 'r', 7);
+		dogs102_write_char_10pts(0, 'e', 8);
+		dogs102_write_char_10pts(0, 's', 9);
+		dogs102_write_char_10pts(1, '1', 2);
+		dogs102_write_char_10pts(1, 's', 3);
+		dogs102_write_char_10pts(1, 't', 4);
+		dogs102_write_char_10pts(1, ':', 5);
+		dogs102_write_char_10pts(1, secondC, 8);
+		dogs102_write_char_10pts(1, firstC, 9);
+		
+		firstC = (second % 10) + 0x30;
+		secondC = (char) (((second / 10))+ 0x30);
+	
+		dogs102_write_char_10pts(2, '2', 2);
+		dogs102_write_char_10pts(2, 'n', 3);
+		dogs102_write_char_10pts(2, 'd', 4);
+		dogs102_write_char_10pts(2, ':', 5);
+		dogs102_write_char_10pts(2, secondC, 8);
+		dogs102_write_char_10pts(2, firstC, 9);
+		
+		firstC = (third % 10) + 0x30;
+		secondC = (char) (((third / 10))+ 0x30);
+	
+		dogs102_write_char_10pts(3, '3', 2);
+		dogs102_write_char_10pts(3, 'r', 3);
+		dogs102_write_char_10pts(3, 'd', 4);
+		dogs102_write_char_10pts(3, ':', 5);
+		dogs102_write_char_10pts(3, secondC, 8);
+		dogs102_write_char_10pts(3, firstC, 9);
 	while(true);
 }

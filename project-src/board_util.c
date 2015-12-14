@@ -146,10 +146,10 @@ void rfInit(void)
   gpio_config_digital_enable(  RF_CE_GPIO_BASE,RF_CE_PIN);
   gpio_config_enable_output(    RF_CE_GPIO_BASE,RF_CE_PIN);
 	
-	gpio_enable_port(RF_IRQ_GPIO_BASE);
-	gpio_config_digital_enable(RF_IRQ_GPIO_BASE, RF_IRQ_PIN);
-	gpio_config_alternate_function(    RF_IRQ_GPIO_BASE, RF_IRQ_PIN);
-	gpio_config_port_control(     RF_IRQ_GPIO_BASE, GPIO_PCTL_PD7_M);
+//	gpio_enable_port(RF_IRQ_GPIO_BASE);
+//	gpio_config_digital_enable(RF_IRQ_GPIO_BASE, RF_IRQ_PIN);
+//	gpio_config_alternate_function(    RF_IRQ_GPIO_BASE, RF_IRQ_PIN);
+//	gpio_config_port_control(     RF_IRQ_GPIO_BASE, GPIO_PCTL_PD7_M);
 	
 	//gpio_enable_interrupt(RF_GPIO_BASE,false);
 	//NVIC_EnableIRQ(GPIOD_IRQn);

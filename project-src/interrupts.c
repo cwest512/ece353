@@ -117,12 +117,10 @@ void WDT0_Handler(void)
 }
 
 void GPIOD_Handler(void)
-{  	
-	if((GPIOD->RIS & ~0x80) == 0)
-		{
-		readIn = true;
-	}
-	GPIOD->ICR = 0;
+{
+	readIn = true;
+	petTheDog(500E6);
+	GPIOD->ICR = 0x80;
 }
 
 void ADC0SS1_Handler(void)

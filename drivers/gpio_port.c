@@ -402,8 +402,8 @@ bool gpio_config_falling_edge_irq(uint32_t gpioBase, uint8_t pins)
 	gpioPort = (GPIOA_Type *) gpioBase;
 	
 	
-	gpioPort->IS = 0;
-	gpioPort->IEV = 0;
+	gpioPort->IS &= ~pins;
+	gpioPort->IEV &= ~pins;
 	
 	return true;
 }
@@ -471,7 +471,7 @@ bool  gpio_config_uart(uint32_t baseAddr)
 	return true;
 }
 
-bool gpioD_enable_interrupt()
+bool gpioD_enable_interrupt(void)
 {
 	GPIOA_Type *gpioPort;	
 	gpio_enable_port(GPIOD_BASE);
@@ -479,24 +479,26 @@ bool gpioD_enable_interrupt()
 	// Type Cast the base address to a GPIOA_Type pointer
 	gpioPort = (GPIOA_Type *)GPIOD_BASE;
 	
-	//Clear Interrupt Mask
+	//GPIO_PORTD_LOCK_R = 0x4C4F434B ;
 	gpioPort->IM = 0x00;
+  //GPIO_PORTD_CR_R = 0xFF;
+	//Clear Interrupt Mask
+	
 	
 	gpio_config_digital_enable(GPIOD_BASE, PD7);
 	
 	gpio_config_enable_input(GPIOD_BASE, PD7);
 	
-	gpio_config_alternate_function(GPIOD_BASE, PD7);
-	
 	//Set Interrupt as falling edge
 	gpio_config_falling_edge_irq(GPIOD_BASE, PD7);
 
 	
-	 //Clear RIS
-	 //gpioPort->RIS = 0;
 	// Write to Interrupt Controller
 	 NVIC_EnableIRQ(GPIOD_IRQn);
 	// Unmask Interrupt Mask
-	 gpioPort->IM = 0xff;
-	 gpioPort->ICR = 0x01;
+	//GPIO_PORTD_LOCK_R = 0x4C4F434B ;
+	gpioPort->ICR = 0x80;
+	gpioPort->IM = 0x80;
+  //GPIO_PORTD_CR_R = 0xFF;
+	
 }

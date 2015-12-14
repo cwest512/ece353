@@ -58,8 +58,8 @@ void initializeBoard(void)
 	watchdog_config(500E6);
 	SysTick_Config(25000);
 	srand(5);
-	rfInit();
 	gpioD_enable_interrupt();
+	rfInit();
 	wireless_configure_device(myID, remoteID );
 	lcd_init();	
 	
@@ -75,6 +75,8 @@ main(void)
 	int buttonToBePressed;
 	uint32_t recived;
 	uint32_t droppedPacket = 0;
+	uint32_t sentPacket = 0;
+	uint32_t recievedPacket = 0;
 	bool correct = true;
 	bool wait;
   int counter;
@@ -131,33 +133,44 @@ main(void)
 				wait = false;
 				correct = true;
 			}
-//			else if ( ((~buttonToBePressed & *pressed) != 0 ) || counter > 1000000 )
-//			{
-//				wait = false;
-//				correct = false;		
-//			}
+			else if ( ((~buttonToBePressed & *pressed) != 0 ) || counter > 1000000 )
+			{
+				wait = false;
+				correct = false;		
+			}
 			counter++;
-			
+			petTheDog(500E6);
 			
 			//if(status == NRF24L01_TX_PCK_LOST)
 			//{
 			//	while(true);
 			//}
 				
-			if(readIn)
-			{
-				status = wireless_get_32(false, &recived);
-        if(status == NRF24L01_RX_SUCCESS)
-        {
-            printf("Received: %d\n\r", recived);
-						//petTheDog(500E6);						
-        }
-				else
-					droppedPacket++;
-				readIn = false;
-			}
-			else
-				status = wireless_send_32(false, false, score);
+//			if(readIn)
+//			{
+//				status = wireless_get_32(false, &recived);
+//        if(status == NRF24L01_RX_SUCCESS)
+//        {
+//            printf("Received: %d\n\r", recived);
+//						recievedPacket++;					
+//        }
+//					
+//				readIn = false;
+//			}
+//			else
+//				status = wireless_send_32(false, false, score);
+//				if(status == NRF24L01_TX_PCK_LOST)
+//					droppedPacket++;
+//				if(status == NRF24L01_TX_SUCCESS)
+//					sentPacket++;
+		}
+		
+		if(AlertFiveSec)
+		{
+			AlertFiveSec = false;
+			
+			printf("Number of packets dropped: %d\nNumber of packets sent: %d\n",droppedPacket, sentPacket);
+			printf("Number of packets recieved: %d\n", recievedPacket);
 		}
 		
 		if(correct)

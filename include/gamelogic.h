@@ -33,3 +33,5 @@ extern volatile bool initState;
 void read_buttons(uint16_t *pressed);
 int random_generate(void);
 void endGame(bool win, int score);
+void high_scores(int score);
+void printHighScores(void);
