@@ -145,7 +145,7 @@ void WDT0_Handler(void)
 void GPIOD_Handler(void)
 {
 	readIn = true;
-//	petTheDog(500E6);
+	petTheDog(500E6);
 	GPIOD->ICR = 0x80;
 }
 

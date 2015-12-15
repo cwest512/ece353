@@ -55,7 +55,7 @@ void initializeBoard(void)
 	timer0_configA(25000);
 	timer2_configA(50E6);
 	timer1_configA(250E6);
-//	watchdog_config(500E6);
+	
 	SysTick_Config(25000);
 	srand(5);
 	rfInit();	
@@ -123,13 +123,14 @@ TX_MODE = mode_selector();
 
 if(TX_MODE)
 {
-	//instructionsGame();
+	instructionsGame();
 	buttonToBePressed = random_generate();
 }
 else
 {
-	//instructionsRecv();
+	instructionsRecv();
 }
+	watchdog_config(500E6);
 	gpioD_enable_interrupt();
 	wireless_configure_device(myID, remoteID );
   while(1)

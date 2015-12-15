@@ -107,7 +107,6 @@ void read_buttons(uint16_t *pressed)
 			if(ps2counter >= 4)
 			{
 				edit_eeprom();
-				ps2data = 0xffff;
 				ps2counter = 0;
 			}
 			initState = false;
@@ -728,6 +727,20 @@ void time_wait(void)
 	uint16_t *temp = (uint16_t *) malloc(sizeof(uint16_t));
 	for(i = 0; i < 1000000; i++) 
 	{
-		read_buttons(temp);
+		if(AlertSysTick)
+			ps2data = GPIOE->DATA;
+		
+		if( ((ps2data & PS2_BTN) == 0))
+		{
+			ps2counter++;
+			if(ps2counter >= 4)
+			{
+				edit_eeprom();
+				ps2counter = 0;
+			}
+		}
+		else {
+			ps2counter = 0;
+		}
 	}
 }

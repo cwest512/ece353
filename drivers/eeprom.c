@@ -217,8 +217,8 @@ void edit_eeprom(void)
 		
 	//Turn off WatchDog Timer
 	wd_timer = (WATCHDOG0_Type *) WATCHDOG0_BASE;
-	wd_timer->CTL = 0x00;
-	
+	NVIC_DisableIRQ(WATCHDOG0_IRQn);
+
 	printf("\nModify EEPROM Contents");
 	
 	//Student One
