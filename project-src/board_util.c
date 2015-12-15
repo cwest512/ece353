@@ -161,23 +161,28 @@ void rfInit(void)
 //*****************************************************************************
 void uart0_config_gpio(void)
 {
+	//Uart pins
 	uint8_t pins = PA0 | PA1;
 	
+	//Enable Port
 	if(!gpio_enable_port(GPIOA_BASE))
 	{
 		while(1){}
 	}
 	
+	//Config as Digital Enable
 	if(!gpio_config_digital_enable(GPIOA_BASE,pins))
 	{
 		while(1){}
 	}
 	
+	//Config the alternate function
 	if(!gpio_config_alternate_function(GPIOA_BASE,pins))
 	{
 		while(1){}
 	}
 	
+	//Config the uart
 	if(!gpio_config_uart(GPIOA_BASE))
 	{
 		while(1){}

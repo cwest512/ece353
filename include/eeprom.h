@@ -24,11 +24,9 @@ i2c_status_t eeprom_byte_read
   uint16_t  address,
   uint8_t   *data
 );
-
-void read_eeprom(uint8_t* data, uint8_t size, uint16_t address);
-
-void write_eeprom(uint8_t* data, uint8_t size, uint16_t address);
-
+//*****************************************************************************
+// Modifies the eeprom contents and then resets the board
+//*****************************************************************************
 void edit_eeprom(void);
 
 #endif

@@ -30,13 +30,56 @@
 
 extern volatile bool initState;
 
+//*****************************************************************************
+// Read the push buttons, ps2 button, and ps2 x and y cords and respond with 
+// appropriate responses
+//	Para: Pressed - pointer to a varraible to see what was pressed.
+//*****************************************************************************
 void read_buttons(uint16_t *pressed);
+//*****************************************************************************
+// Generate a random number to then use to print a varriable to the lcd and then
+// start checking to see if it was pressed.
+// return: value to check for being pressed
+//*****************************************************************************
 int random_generate(void);
+//*****************************************************************************
+// Method for when the game is done, prints a "You Win!" or "You Lose" Screen,
+// with respective scores
+//
+// Param: bool win - if they won or not
+//				int score - the score they got
+//*****************************************************************************
 void endGame(bool win, int score);
+//*****************************************************************************
+// Adds new score to high score eeprom list if appliciable
+//
+// Param: int score - the score they got
+//*****************************************************************************
 void high_scores(int score);
+//*****************************************************************************
+// Prints High Scores
+//*****************************************************************************
 void printHighScores(void);
+//*****************************************************************************
+// used to select transmit(master) mode or recieve(slave) mode
+// returns: bool - mode 
+//*****************************************************************************
 bool mode_selector(void);
+//*****************************************************************************
+// Instruction screens for recive mode
+//*****************************************************************************	
 void instructionsRecv(void);
+//*****************************************************************************
+// Instructions screens for transmit mode 
+//*****************************************************************************
 void instructionsGame(void);
+//*****************************************************************************
+// Wait a specific amount of time and check for ps2 presses
+//*****************************************************************************
 void time_wait(void);
+//*****************************************************************************
+// Prints the score to the "slave" board
+//
+// Param: int score - the score they currently have
+//*****************************************************************************
 void printScore(int score);

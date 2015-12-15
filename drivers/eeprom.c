@@ -191,49 +191,44 @@ i2c_status_t eeprom_byte_read
   return I2C_OK;
 }
 
-void read_eeprom(uint8_t* data, uint8_t size, uint16_t address)
-{
-	int i;
-	for(i = 0; i < size; i++)
-  {
-    eeprom_byte_read(EEPROM_I2C_BASE, address + i, &(data[i]));
-  }
-}
-
-void write_eeprom(uint8_t* data, uint8_t size, uint16_t address)
-{
-	int i;
-	for(i = 0; i < size; i++)
-  {
-		eeprom_byte_write(EEPROM_I2C_BASE,address + i, data[i]);
-	}
-}
-
+//*****************************************************************************
+// Modifies the eeprom contents and then resets the board
+//*****************************************************************************
 void edit_eeprom(void)
 {
+	//input char is 80 bytes long
 	char input[80];
+	//increment var
 	int j;
+	//reading from eeprom var
 	uint8_t toRead[80];
 		
 	//Turn off WatchDog Timer
 	wd_timer = (WATCHDOG0_Type *) WATCHDOG0_BASE;
 	NVIC_DisableIRQ(WATCHDOG0_IRQn);
 
+	//Prompt to modify eeprom contents
 	printf("\nModify EEPROM Contents");
 	
 	//Student One
 	printf("\nStudent 1: ");
 	
+	//Read current student 1 value in eeprom
 	for(j = 0; j < 80; j++)
 		eeprom_byte_read(EEPROM_I2C_BASE, j, &toRead[j] );
 	
+	//print it out
 	for(j = 0; j < 80; j++)
 		printf("%c", toRead[j]);
 		
+	//prompt ofr new student 1
 	printf("\n\rEnter a new Student 1: ");
+	//sets input to 80 and start writing at 0
 	memset(input,0,80);
+	//look for 80 input
 	scanf("%80[^\n]", input);
 	
+	//if Enter was not used then write to eeprom, otherwise skip
 	if(!(input[0] == NULL))
 	{
 		for(j = 0; j < 80; j++)
@@ -243,16 +238,20 @@ void edit_eeprom(void)
 	//Student 2
 	printf("\nStudent 2: ");
 	
+	//Read Student 2 from eeprom
 	for(j = 0; j < 80; j++)
 		eeprom_byte_read(EEPROM_I2C_BASE, j+80, &toRead[j] );
 		
+	//Print out
 	for(j = 0; j < 80; j++)
 		printf("%c", toRead[j]);
 		
+	//Prompt for new student 2
 	printf("\n\rEnter a new Student 2: ");
 	memset(input,0,80);
 	scanf("%80[^\n]", input);
 	
+	//if Enter was not used then write to eeprom, otherwise skip
 	if(!(input[0] == NULL))
 	{
 		for(j = 0; j < 80; j++)
@@ -262,16 +261,21 @@ void edit_eeprom(void)
 	//Group #
 	printf("\nTeam Number: ");
 	
+	//Read Group # from EEPROM
 	for(j = 0; j < 2; j++)
 		eeprom_byte_read(EEPROM_I2C_BASE, j+160, &toRead[j] );
 		
+	//Print out
 	for(j = 0; j < 2; j++)
 		printf("%c", toRead[j]);
 		
+	//Prompt for new eeprom
 	printf("\n\rEnter a new Team Number: ");
 	memset(input,0,2);
+	//2 bytes long input
 	scanf("%2[^\n]", input);
 	
+	//if Enter was not used then write to eeprom, otherwise skip
 	if(!(input[0] == NULL))
 	{
 		for(j = 0; j < 2; j++)
