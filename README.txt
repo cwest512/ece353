@@ -19,3 +19,5 @@ you will be able to see their score increment. Here you will be able to press th
 time they have to make a move or by pressing the "down" button you will be able to decrease the time they
 have to make a move. The high scores will be shown when they finish and they may be able to knock you off your
 own score board!
+
+VIDEO LINK: https://www.youtube.com/watch?v=aLWODlSj8L4
