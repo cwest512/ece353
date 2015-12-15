@@ -1,8 +1,11 @@
 #include "adc.h"
 
 /******************************************************************************
- * Initializes ADC to use Sample Sequencer #3, triggered by the processor,
+ * Initializes ADC to use Sample Sequencer #1, triggered by the timer,
  * no IRQs
+ * 
+ * RETURNS
+ * 	Boolean value to signify successful completion
  *****************************************************************************/
 bool initializeADC(  uint32_t adc_base )
 {
@@ -18,19 +21,18 @@ bool initializeADC(  uint32_t adc_base )
     case ADC0_BASE :
     {
       
-      // ADD CODE
-      // set rcgc_adc_mask
+      
+      // Set gate clock mask
       rcgc_adc_mask = SYSCTL_RCGCADC_R0;
-      // Set pr_mask 
+      // Set peripheral ready
 			pr_mask = SYSCTL_PRADC_R0;
       break;
     }
     case ADC1_BASE :
     {
-        // ADD CODE
-      // set rcgc_adc_mask
+      // Set gate clock mask
       rcgc_adc_mask = SYSCTL_RCGCADC_R1;
-      // Set pr_mask 
+      // Set "peripheral ready" mask
 			pr_mask = SYSCTL_PRADC_R1;
       break;
     }
@@ -48,15 +50,14 @@ bool initializeADC(  uint32_t adc_base )
   // Type Cast adc_base and set it to myADC
   myADC = (ADC0_Type *)adc_base;
   
-  // disable sample sequencer #1 by writing a 0 to the 
-  // corresponding ASENn bit in the ADCACTSS register 
+  // Disable sample sequencer #1 by writing a 0 to the 
+  // Corresponding ASENn bit in the ADCACTSS register 
 	
 	myADC->IM = 0;
 		
 	myADC->ACTSS &= ~ADC_ACTSS_ASEN1;
 
-  // ADD CODE
-  // Set the event multiplexer to trigger conversion on a processor trigger
+  // Set the event multiplexer to trigger conversion on a timer trigger
   // for sample sequencer #1.
 		
 	myADC->EMUX  &= ~ADC_EMUX_EM1_M;
@@ -64,19 +65,22 @@ bool initializeADC(  uint32_t adc_base )
 		
 	myADC->SSMUX1 = 0x01;
 	
-  // Set IE0 and END0 in SSCTL3
+  // Set 2nd conversion as the end-of-sequence
   myADC->SSCTL1 = ADC_SSCTL1_IE1 | ADC_SSCTL1_END1;
 	
-	
+	// Unmask interrupts for SSI1
 	myADC->IM = 0x2;
-	
+	// Register SSI1 with Interrupt Controller
 	NVIC_EnableIRQ(ADC0SS1_IRQn);
 	
+	// Enable ADC conversions
 	myADC->ACTSS |= ADC_ACTSS_ASEN1;
+	//Initiate Sampling
 	myADC->PSSI 	= ADC_PSSI_SS1;
 	
   return true;
 }
+
 
 /******************************************************************************
  * Reads SSMUX3 for the given ADC.  Busy waits until completion
@@ -93,20 +97,20 @@ bool initializeADC(  uint32_t adc_base )
 //  
 //  myADC = (ADC0_Type *)adc_base;
 //  
-//  myADC->SSMUX1 = channel;          // Set the Channel
+//  myADC->SSMUX3 = channel;          // Set the Channel
 //  
-//  myADC->ACTSS |= ADC_ACTSS_ASEN1;  // Enable SS3
+//  myADC->ACTSS |= ADC_ACTSS_ASEN3;  // Enable SS3
 //  
-//  myADC->PSSI =   ADC_PSSI_SS1;     // Start SS3
+//  myADC->PSSI =   ADC_PSSI_SS3;     // Start SS3
 //  
-//  while( (myADC->RIS & ADC_RIS_INR1)  == 0)
+//  while( (myADC->RIS & ADC_RIS_INR3)  == 0)
 //  {
 //    // wait
 //  }
 //  
 //  result = myADC->SSFIFO3 & 0xFFF;    // Read 12-bit data
 //  
-//  myADC->ISC  = ADC_ISC_IN1;          // Ack the conversion
+//  myADC->ISC  = ADC_ISC_IN3;          // Ack the conversion
 //  
 //  return result;
 //}

@@ -92,7 +92,6 @@ static __INLINE void  wireless_CE_Pulse(void)
 }
 
 //*****************************************************************************
-// ADD CODE
 // This function reads a single byte of data from the register at the 5-bit 
 // address specificed by the lower 5 bits of paramter reg. 
 //
@@ -111,20 +110,26 @@ static __INLINE void  wireless_CE_Pulse(void)
 //*****************************************************************************
 static __INLINE uint8_t wireless_reg_read(uint8_t reg)
 {
+	// Initialize data buffers
 	uint8_t command[NUM_BYTES];
 	uint8_t received[NUM_BYTES];
-	//Isolate last 5 bits
+	//Clear 3 MSB bits of register command
 	reg &= 0x1F;
+	// Set filler byte
 	command[1] = 0;
+	// Set command byte
 	command[0] = reg;
+	// Put chip select low to begin transaction
 	wireless_CSN_low();
+	// Transfer bytes on SPI interface
 	spiTx(wirelessPinConfig.wireless_spi_base,command,NUM_BYTES,received);
+	// Stop transaction
 	wireless_CSN_high();
+	// Return status byte
 	return received[1];
 }
 
 //*****************************************************************************
-// ADD CODE
 // This function writes a single byte of data from the register at the 5-bit 
 // address specificed by the lower 5 bits of paramter reg. 
 //  
@@ -138,15 +143,19 @@ static __INLINE uint8_t wireless_reg_read(uint8_t reg)
 //*****************************************************************************
 static __INLINE void wireless_reg_write(uint8_t reg, uint8_t data)
 {
+	// Initialize data buffers
 	uint8_t command[NUM_BYTES];
 	uint8_t received[NUM_BYTES];
-	//Isolate last 5 bits
+	//Clear 3 MSB bits of register command
 	reg &= 0x1F;
 	//Shift bits to MSB
 	command[1] = data;
 	command[0] = (1 << 5) | reg;
+	// Put chip select low to begin transaction
 	wireless_CSN_low();
+	// Transfer bytes on SPI interface
 	spiTx(wirelessPinConfig.wireless_spi_base,command,NUM_BYTES,received);
+	// Stop transaction
 	wireless_CSN_high();
 
 }
@@ -155,7 +164,6 @@ static __INLINE void wireless_reg_write(uint8_t reg, uint8_t data)
 
 
 //*****************************************************************************
-// ADD CODE
 // This function writes 5 bytes of data to the TX_ADDR register 
 // Assume that tx_addr is an array of size 5.
 // Send the data over starting with the byte at the lowest address in tx_addr.
@@ -167,23 +175,29 @@ static __INLINE void wireless_reg_write(uint8_t reg, uint8_t data)
 static __INLINE uint32_t wireless_set_tx_addr(uint8_t  *tx_addr)
 {
 	int i;
+	// Initialize data buffers
 	uint8_t command[6];
 	uint8_t received[6];
+	// Format command
 	command[0] = (1 << 5) | NRF24L01_TX_ADDR_R;
 	
+	// For each address character, place in command buffer
 	for(i = 1; i < 6; i++)
 	{
 		command[i] = *tx_addr;
 		tx_addr++;
 	}
+	// Begin transaction
 	wireless_CSN_low();
+	// Transfer data on SPI
 	spiTx(wirelessPinConfig.wireless_spi_base,command,6,received);
+	//End transaction
 	wireless_CSN_high();
+	//Return status
 	return (uint32_t) *received;
 }
 
 //*****************************************************************************
-// ADD CODE
 // This function writes 4 bytes of data to the nRF24L01+ Tx FIFO using the 
 // W_TX_PAYLOAD command found on page 46 of the nRF24L01+ datasheet.  Send
 // the most significant byte first.
@@ -194,26 +208,29 @@ static __INLINE uint32_t wireless_set_tx_addr(uint8_t  *tx_addr)
 //*****************************************************************************
 static __INLINE void wireless_tx_data_payload( uint32_t data)
 {
-	int i;
+	//Initialize data buffers
 	uint8_t command[5];
 	uint8_t received[5];
+	//Convert 32 bit number to an array of 8 bit numbers
 	uint8_t* data_arr = (uint8_t*) &data;
+	//Set command and data to appropriate indexes
 	command[0] = 0xA0;
 	command[1] = data_arr[3];
 	command[2] = data_arr[2];
 	command[3] = data_arr[1];
 	command[4] = data_arr[0];
 	
-	//printf("Data_arr: %d %d %d %d %d\n",command[0],command[1],command[2],command[3],command[4]);
+	//Begin transaction
 	wireless_CSN_low();
+	// transfer data on SPI
 	spiTx(wirelessPinConfig.wireless_spi_base,command,5,received);
+	//End transaction
 	wireless_CSN_high();
 }
 
 
 
 //*****************************************************************************
-// ADD CODE
 // This function reads 4 bytes of data from the nRF24L01+ Tx FIFO using the 
 // R_RX_PAYLOAD command found on page 46 of the nRF24L01+ datasheet.  Data will
 // be received most significant byte first.
@@ -224,18 +241,25 @@ static __INLINE void wireless_tx_data_payload( uint32_t data)
 //*****************************************************************************
 static __INLINE void wireless_rx_data_payload( uint32_t *data)
 {
+	// Initialize data buffers
 	uint8_t* ptr;
 	uint8_t rx_data[5];
+	// Initialize transmit buffer with filler data
 	uint8_t tx_data[5] = {0,0,0,0,0};
+	// Set command
 	tx_data[0] = NRF24L01_CMD_R_RX_PAYLOAD;
+	// Begin transaction
 	wireless_CSN_low();	
+	// Transfer bytes
 	spiTx(wirelessPinConfig.wireless_spi_base,tx_data,5,rx_data);
+	//End transaction
+	// Transfer bytes to 32 bit number
 	ptr = (uint8_t*) data;
 	ptr[3] = rx_data[1];
 	ptr[2] = rx_data[2];
 	ptr[1] = rx_data[3];
 	ptr[0] = rx_data[4];
-	//printf("Data_arr: %d %d %d %d %d\n",ptr[0],ptr[1],ptr[2],ptr[3],ptr[4]);
+	//End transaction
 	wireless_CSN_high();
 }
 

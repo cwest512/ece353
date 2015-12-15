@@ -38,10 +38,10 @@ bool initialize_uart(void)
     // Turn on the UART Interrupts  for Tx, Rx, and Rx Timeout
     UART0->IM = UART_IM_RXIM | UART_IM_TXIM | UART_IM_RTIM;
     
-    // <ADD CODE> Set the priority to 1
+    // Set the priority to 1
 		NVIC_SetPriority(UART0_IRQn, 0);
 		
-    // <ADD CODE> Enable the NVIC for UART0
+    // Enable the NVIC for UART0
     NVIC_EnableIRQ(UART0_IRQn);
 			 
     // Initialize the circular buffer
@@ -56,12 +56,15 @@ bool initialize_uart(void)
 }
 
 /****************************************************************************
- *
+ * Receive data on UART. If blocking is enabled, this routine should not 
+ * return until data is available. If blocking is not enabled, this function
+ * should return -1
  ****************************************************************************/
 int uartRx(bool block)
 {
    int c;
 
+	// Wait until data is available
    while (pc_buffer_empty(&UART0_Rx_Buffer))
    {
       if (!block)
@@ -69,6 +72,7 @@ int uartRx(bool block)
    }
 
    DisableInterrupts();
+	 // Remove character from buffer
    pc_buffer_remove(&UART0_Rx_Buffer, (char *)&c);
    EnableInterrupts();
    
@@ -76,7 +80,7 @@ int uartRx(bool block)
 }
 
 /****************************************************************************
- *
+ * Transmit data on UART.
  ****************************************************************************/
 void uartTx(int data)
 {

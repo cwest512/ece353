@@ -1,5 +1,6 @@
 #include "timers.h"
 
+// Definte timer variables
 volatile TIMER0_Type *a_timer;
 volatile TIMER0_Type *one_timer;
 volatile TIMER0_Type *two_timer;
@@ -8,6 +9,10 @@ volatile WATCHDOG0_Type *wd_timer;
 //*****************************************************************************
 // Configure a 16/32 bit general purpose timer to wait a specified number
 // of clock cycles
+// Paramters:
+//    base:  The base address of the peripheral that is being
+//                configured
+//    ticks: The number of clock cycles to wait.
 //*****************************************************************************
 bool gp_timer_wait(uint32_t base, uint32_t ticks)
 {
@@ -67,8 +72,6 @@ bool gp_timer_wait(uint32_t base, uint32_t ticks)
   // Wait for the timer to turn on
   while( (SYSCTL->PRTIMER & timer_pr_mask) == 0) {};
     
-  
-  // ADD CODE
   // Initialize the timer to be a 
   //      32-bit
   //      one-shot
@@ -91,6 +94,12 @@ bool gp_timer_wait(uint32_t base, uint32_t ticks)
 		
   return true;
 }
+
+//********************************************************************************
+// Configure Timer0A as a 32-bit, periodic, count-down timer and enable interrupts
+// Paramters:
+//    ticks: The number of clock cycles to wait.
+//********************************************************************************
 void timer0_configA(uint16_t ticks)
 {
 		// Turn on the clock for the timer
@@ -115,6 +124,11 @@ void timer0_configA(uint16_t ticks)
 		NVIC_EnableIRQ(TIMER0A_IRQn);
 }
 
+//********************************************************************************
+// Configure Timer1A as a 32-bit, periodic, count-down timer and enable interrupts
+// Paramters:
+//    ticks: The number of clock cycles to wait.
+//********************************************************************************
 void timer1_configA(uint32_t ticks)
 {
 		// Turn on the clock for the timer
@@ -138,6 +152,11 @@ void timer1_configA(uint32_t ticks)
 		NVIC_EnableIRQ(TIMER1A_IRQn);
 }
 
+//********************************************************************************
+// Configure Timer2A as a 32-bit, periodic, count-down timer and enable interrupts
+// Paramters:
+//    ticks: The number of clock cycles to wait.
+//********************************************************************************
 void timer2_configA(uint32_t ticks)
 {
 		// Turn on the clock for the timer
@@ -161,6 +180,11 @@ void timer2_configA(uint32_t ticks)
 		NVIC_EnableIRQ(TIMER2A_IRQn);
 }
 
+//********************************************************************************
+// Configure the Watchdog timer and generate interrupts
+// Paramters:
+//    ticks: The number of clock cycles to wait.
+//********************************************************************************
 void watchdog_config(uint32_t ticks)
 {
 		SYSCTL->RCGCWD |= SYSCTL_RCGCWD_R0;
@@ -178,7 +202,11 @@ void watchdog_config(uint32_t ticks)
 		wd_timer->CTL = 0x01;
 	
 }
-
+//********************************************************************************
+// Sets LOAD register as to not hault the system
+// Paramters:
+//    ticks: The number of clock cycles to wait.
+//********************************************************************************
 void petTheDog(uint32_t ticks)
 {
 	wd_timer = (WATCHDOG0_Type *) WATCHDOG0_BASE;

@@ -150,12 +150,38 @@ bool  gpio_config_port_control(uint32_t baseAddr, uint32_t pins);
 //*****************************************************************************
 bool  gpio_config_open_drain(uint32_t gpioBase, uint8_t pins);
 
-
-
+//******************************************************************************
+// Enabling a GPIO pin to generate and interrupt on the falling edge of a signal
+//
+// Paramters
+// baseAddr - Base address of GPIO port that is being enabled.
+// pins - A bit mask indicating which pins should be configured to
+// generate a falling edge interrupt. A 1 in the bitmask
+// indicates that the pin will generate an interrupt. A 0 in the
+// bit mask indicates that the pin should not be modified from
+// its current configuration.
+//
+// Returns
+// true if gpioBase is a valid GPIO Port Address
+// false if gpioBase is not a valid GPIO Port Address
+//*****************************************************************************
 bool gpio_config_falling_edge_irq(uint32_t gpioBase, uint8_t pins);
 
+//*****************************************************************************
+// Configure port for UART functionality
+//
+// Paramters
+//    baseAddr - Base address of GPIO port that is being enabled.
+//
+// Returns
+//		Returns true on successful configuration or false if base addr is 
+//		incorrect.
+//*****************************************************************************
 bool  gpio_config_uart(uint32_t baseAddr);
 
+//*****************************************************************************
+// Configure GPIO port D pin 7 to function as RF interrupt
+//*****************************************************************************
 void gpioD_enable_interrupt(void);
 
 #endif

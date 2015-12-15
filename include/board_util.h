@@ -138,14 +138,33 @@
 #define   RF_PAYLOAD_SIZE     0x04
 #define   RF_CHANNEL          0x02
 
-void serialDebugInit(void);
-void i2cInit(void);
 void DisableInterrupts(void);
 void EnableInterrupts(void);
+
+//*****************************************************************************
+// Initialize the I2C peripheral
+//*****************************************************************************
+void i2cInit(void);
+
+
+//*****************************************************************************
+// Initialize ports for ADC use by joysticks
+//*****************************************************************************
 void adc_init(void);
+
+//*****************************************************************************
+// Initialize ports for push button use
+//*****************************************************************************
 void pushButton_init(void);
+
+//*****************************************************************************
+// Initialize wireless communications
+//*****************************************************************************
 void rfInit(void);
-void test_portD_interrupt(void);
+
+//*****************************************************************************
+// Initialize UART for Serial communications
+//*****************************************************************************
 void uart0_config_gpio(void);
 
 #endif

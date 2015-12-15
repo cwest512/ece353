@@ -65,6 +65,9 @@ void i2cInit(void)
   initializeI2CMaster(EEPROM_I2C_BASE);  
 }
 
+//*****************************************************************************
+// Initialize ports for ADC use by joysticks
+//*****************************************************************************
 void adc_init(void)
 {
 		gpio_enable_port(PS2_GPIO_BASE);
@@ -79,7 +82,9 @@ void adc_init(void)
 	
 		initializeADC(PS2_ADC_BASE);
 }
-
+//*****************************************************************************
+// Initialize ports for push button use
+//*****************************************************************************
 void pushButton_init(void)
 {
 	gpio_enable_port(DIR_BTN_BASE);
@@ -105,7 +110,9 @@ void pushButton_init(void)
 	gpio_config_enable_input(PS2_BTN_BASE, PS2_BTN);
 	gpio_config_enable_pullup(PS2_BTN_BASE, PS2_BTN);
 }
-
+//*****************************************************************************
+// Initialize wireless communications
+//*****************************************************************************
 void rfInit(void)
 {  
   wireless_set_pin_config(
@@ -149,7 +156,9 @@ void rfInit(void)
   initialize_spi( RF_SPI_BASE, 0, 10);
   RF_CE_PERIH->DATA |= (1 << 1);
 }
-
+//*****************************************************************************
+// Initialize UART for Serial communications
+//*****************************************************************************
 void uart0_config_gpio(void)
 {
 	uint8_t pins = PA0 | PA1;

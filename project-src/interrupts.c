@@ -4,15 +4,25 @@
 #include "timers.h"
 #include "board_util.h"
 
+// SysTick interrupt variable
 volatile bool AlertSysTick;
+// Alert Variable to be set every 5 seconds
 volatile bool AlertFiveSec;
+// Link to RX buffer
 extern PC_Buffer UART0_Rx_Buffer;
+// Link to TX Buffer
 extern PC_Buffer UART0_Tx_Buffer;
+// Count to keep track of the number of Systick interrupts
 volatile int count = 0;
+// Signal to initiate ADC conversion
 volatile bool updateXY;
+// Signal to send Speed data
 volatile bool sendSpeed;
+// Link to joystick data
 volatile uint32_t ps2_x_data, ps2_y_data;
+// Reference to Joystick mem location
 ADC0_Type* myADC = (ADC0_Type *)PS2_ADC_BASE;
+// Signal to indicate when to read from RF
 volatile bool readIn = true;
 
 //*****************************************************************************
@@ -83,7 +93,9 @@ void UART0_Handler(void)
     }
     return;
 }
-
+//*****************************************************************************
+// SysTick Interrupt Service handler
+//*****************************************************************************
 void SysTick_Handler(void) 
 {
 	uint32_t val;
@@ -100,23 +112,36 @@ void SysTick_Handler(void)
 	val = SysTick->VAL;
 	
 }
+
+//*****************************************************************************
+// Timer0A Interrupt Service handler
+//*****************************************************************************
 void TIMER0A_Handler(void)
 {
 	updateXY = true;
 	a_timer->ICR = TIMER_ICR_TATOCINT;
 }
 
+//*****************************************************************************
+// Timer1A Interrupt Service handler
+//*****************************************************************************
 void TIMER1A_Handler(void)
 {	
   AlertFiveSec = true;
 	one_timer->ICR = TIMER_ICR_TATOCINT;
 }
 
+//*****************************************************************************
+// Watchdog Interrupt Service handler
+//*****************************************************************************
 void WDT0_Handler(void)
 {
 	printf("You didn't pet the dog!");
 }
 
+//*****************************************************************************
+// GPIO Port D Interrupt Service handler
+//*****************************************************************************
 void GPIOD_Handler(void)
 {
 	readIn = true;
@@ -124,6 +149,9 @@ void GPIOD_Handler(void)
 	GPIOD->ICR = 0x80;
 }
 
+//*****************************************************************************
+// Analog-to-Digital Interrupt Service handler
+//*****************************************************************************
 void ADC0SS1_Handler(void)
 {
 	
@@ -133,6 +161,9 @@ void ADC0SS1_Handler(void)
 	myADC->ISC = 0x2;
 }
 
+//*****************************************************************************
+// Timer2A Interrupt Service handler
+//*****************************************************************************
 void TIMER2A_Handler(void)
 {
 	sendSpeed = true;
