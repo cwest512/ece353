@@ -1,6 +1,21 @@
-Copy your drivers that you have developed in class into the drivers directory.    
-Copy your includes that you have developed in class into the includes directory.    
-Use the project-src directory to implement your project.
+Upon hardware startup you will be greeted with a "Welcome" screen. Wait a few seconds. You will then be shown
+a screen to put the board into "Receive" mode or into "Game" mode.
 
-All of the ICE directories have been provided as a convenience to you to test individual peripherals used in your project.  Using these projects will require you to make some modifications to the project to use your own code to initialize gpio pins and get the serial debug interface on UART0 working properly.
+Pressing the "Up" button will place the board into "Receive" mode and pressing the "Down" button will place the
+board into "Game" mode.
 
+Game mode:
+
+You will be shown a screen that confirms your selection and instructions on how to play. When you see an arrow
+with an action the game will have begun and you must be quick to follow the commands. If you make a mistake or
+reach 50 points, the game will end and you'll be shown your high scores. If you're playing with another player,
+they will be able to see your score and increase or decrease your difficulty. When the game has ended press the 
+onboard "reset" button to play again!
+
+Receive Mode:
+
+When you pressed the "down" button you will be shown a confirmation screen. When your friend has begun to play
+you will be able to see their score increment. Here you will be able to press the "up" button to increase the
+time they have to make a move or by pressing the "down" button you will be able to decrease the time they
+have to make a move. The high scores will be shown when they finish and they may be able to knock you off your
+own score board!
