@@ -162,8 +162,6 @@ void rfInit(void)
 void uart0_config_gpio(void)
 {
 	uint8_t pins = PA0 | PA1;
-	uint8_t out = PA1;
-	uint8_t in = PA0;
 	
 	if(!gpio_enable_port(GPIOA_BASE))
 	{
