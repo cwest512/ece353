@@ -939,7 +939,7 @@ void time_wait(void)
 	//increment varraible
 	int i;
 	//long loop to hold time
-	for(i = 0; i < 1000000; i++) 
+	for(i = 0; i < 3000000; i++) 
 	{
 		//Check if ps2 is pressed, then edit eeprom if it is
 		if(AlertSysTick)

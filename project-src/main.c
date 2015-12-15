@@ -210,7 +210,7 @@ else
         if(status == NRF24L01_RX_SUCCESS)
         {
 						//print recieved package for debugging
-            printf("Received: %d\n\r", recived);
+            //printf("Received: %d\n\r", recived);
 						//set speed to package
 						speed = recived;
 						//increment
@@ -239,8 +239,10 @@ else
 			status = wireless_send_32(false, false, score);
 			//Game wins at 50
 			if(score == 50)
+			{
 				//End game with win screen
 			 endGame(true, score);
+			}
 		}
 		//if wrong...
 		else
@@ -277,31 +279,26 @@ else
         if(status == NRF24L01_RX_SUCCESS)
         {
 						//print it out for debugging 
-            printf("Received: %d\n\r", recived);
+            //printf("Received: %d\n\r", recived);
 						//increment recieved packets
 						recievedPacket++;
 						//if its not the fail packet then update score and print the score
-						if(recived != 0)
+						if(recived != 0 && recived != 50)
 						{
 							score = recived;
 							printScore(score);
 						}
+						//If 50 win win screen!
+						else if(recived == 50)
+						{
+							endGame(true, 50);
+						}
+						
 						//if it is the fail packet
 						else
 						{
-							bool win;
-							//if score is not fifty is a loss
-							if(score != 50)
-							{
-								win = false;
-							}
-							//if it is fifty then its a win
-							else
-							{
-								win = true;
-							}
-							//go to endgame with respective score and win bool
-							endGame(win,score);	
+							//Lost print screen
+							endGame(false,score);	
 						}							
         }
 				//set read in to false
@@ -321,7 +318,7 @@ else
 					if(sendSpeed)
 					{
 						//debug
-						printf("%d\n", speed);
+						//printf("%d\n", speed);
 						status = wireless_send_32(false, false, speed);
 						sendSpeed = false;
 					}
@@ -334,7 +331,7 @@ else
 						speed = 10000;
 					if(sendSpeed)
 					{
-						printf("%d\n", speed);
+						//printf("%d\n", speed);
 						status = wireless_send_32(false, false, speed);
 						sendSpeed = false;
 					}
